@@ -803,7 +803,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -811,69 +811,6 @@ TextureImporter:
       bones: []
       spriteID: 57d77de0eb429474293d733759b33119
       internalID: -471241912
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tilemap_6
-      rect:
-        serializedVersion: 2
-        x: 153
-        y: 102
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b9ff86aa10ea97c41a00e0a579f82286
-      internalID: -804233684
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tilemap_7
-      rect:
-        serializedVersion: 2
-        x: 170
-        y: 102
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 02375e51edf711e4dbb361665bd49b7a
-      internalID: 1128880113
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tilemap_8
-      rect:
-        serializedVersion: 2
-        x: 187
-        y: 102
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9c201380b8d918c4e9d0edfb5f946bdb
-      internalID: -829147365
       vertices: []
       indices: 
       edges: []
@@ -985,7 +922,6 @@ TextureImporter:
       tilemap_57: -1058767469
       tilemap_58: 1816612839
       tilemap_59: 1816189969
-      tilemap_6: -804233684
       tilemap_60: 333560882
       tilemap_61: -1673883305
       tilemap_62: -1246956362
