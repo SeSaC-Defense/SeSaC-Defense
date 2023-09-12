@@ -28,9 +28,6 @@ public class ObjectDetector : MonoBehaviour
                 {
                     towerSpawner.SpawnTower(hit.transform);
                 }
-                if (hit.transform.CompareTag("Tower"))
-                {
-                }
             }
         }
     }

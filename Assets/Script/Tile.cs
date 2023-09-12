@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public bool OnTheTower
+    public bool IsBuildTower
     {
         set; get;
     }
 
     private void Awake()
     {
-        OnTheTower = false;
+        IsBuildTower = false;
     }
 }

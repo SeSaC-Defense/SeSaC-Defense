@@ -10,7 +10,15 @@ public class Movement2D : MonoBehaviour
     private void Update()
     {
         //오브젝트의 포지션을 moveDirection으로 moveSpeed의 속도로 이동하게
-        transform.position += moveDirection * moveSpeed * Time.deltaTime; 
+        transform.position += moveDirection * moveSpeed * Time.deltaTime;
+        if(moveDirection.x < transform.position.x)
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
     }
 
     public void MoveTo(Vector3 directtion) 

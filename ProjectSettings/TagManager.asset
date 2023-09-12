@@ -7,11 +7,10 @@ TagManager:
   - Tile
   - Tower
   - Attack
-  - EnemyTile
-  - EnemyTower
-  - EnemyAttack
   - EnemyWayPoint
   - WayPoint
+  - Unit
+  - Enemy
   layers:
   - Default
   - TransparentFX

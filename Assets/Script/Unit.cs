@@ -13,7 +13,7 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         GameObject waypointlistobject   = GameObject.Find("WayPointList");
-        wayPointsList                   = waypointlistobject.GetComponent<WayPointList>().wayPoints;
+        //wayPointsList                   = waypointlistobject.GetComponent<WayPointList>().wayPoints;
     }
 
     public void SetUp(Transform loadPlace)

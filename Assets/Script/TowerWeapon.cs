@@ -1,26 +1,22 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.XR;
 
 public enum WeaponState { SearchTarget = 0, AttackToTarget }
+
 public class TowerWeapon : MonoBehaviour
 {
-    [SerializeField] private GameObject bullet;
-    [SerializeField] private Transform spawnPoint;
-    [SerializeField] private float attackRate = 1.0f;
-    [SerializeField] private int attackDamage = 0;
+    [SerializeField] private GameObject     projectilePrefab;
+    [SerializeField] private Transform      spawnPoint;
+    [SerializeField] private float          attackRate      = 1.0f;
+    [SerializeField] private float          attackRange     = 10.0f;
 
-    private WeaponState weaponState = WeaponState.SearchTarget;
-    private Transform attackTarget = null;
-    //private EUnitSpawn eUnitSpawn;
+    private WeaponState     weaponState     = WeaponState.SearchTarget;
+    private Transform       attackTarget    = null;
+    private EnemySpawner    enemySpawner;
 
-    public void SetUp(/*EUnitSpawn*/)
+    public void Setup(EnemySpawner enemySpawner)
     {
-        //this.EUnitSpawn = 매개변수
-
+        this.enemySpawner = enemySpawner;
         ChangeState(WeaponState.SearchTarget);
     }
 
@@ -40,28 +36,68 @@ public class TowerWeapon : MonoBehaviour
     }
 
     private void RotateToTarget()
-    {
-        float dx = attackTarget.position.x - transform.position.x;
-        float dy = attackTarget.position.y - transform.position.y;
-        float degree = Mathf.Atan2(dy, dx) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, degree);
+    {   
+        if(gameObject.transform.position.x > attackTarget.position.x)
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        
     }
 
     private IEnumerator SearchTarget()
     {
-        yield return null;
+        while (true)
+        {
+            float closestDistSqr = Mathf.Infinity;
+            for(int i = 0; i < enemySpawner.EnemyList.Count; ++i) 
+            {
+                float distansce = Vector3.Distance(enemySpawner.EnemyList[i].transform.position, transform.position);
+                if(distansce <= attackRange && distansce <= closestDistSqr)
+                {
+                    closestDistSqr  = distansce;
+                    attackTarget    = enemySpawner.EnemyList[i].transform;
+                }
+            }
+            if (attackTarget != null)
+            {
+                ChangeState(WeaponState.AttackToTarget);
+            }
+            yield return null;
+        }
+        
     }
     private IEnumerator AttackToTarget()
     {
         while (true)
         {
-            yield return null;
+            if(attackTarget == null)
+            {
+                print("표적없음");
+                ChangeState(WeaponState.SearchTarget); 
+                break;
+            }
+
+            float distance = Vector3.Distance(attackTarget.position, transform.position);
+            if (distance > attackRange)
+            {
+                print("표적 사라짐");
+                attackTarget = null;
+                ChangeState(WeaponState.SearchTarget); 
+                break;
+            }
+            yield return new WaitForSeconds(attackRate);
+
+            SpawnProjectile();
         }
     }
     private void SpawnProjectile()
     {
-        GameObject clone = Instantiate(bullet, spawnPoint);
-        clone.GetComponent<BulletAttack>().SetUp(attackTarget, attackDamage);
-
+        print("빵야");
+        GameObject clone = Instantiate(projectilePrefab, spawnPoint);
+        clone.GetComponent<Projectile>().Setup(attackTarget);
     }
 }
