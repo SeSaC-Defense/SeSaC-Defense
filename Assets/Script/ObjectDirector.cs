@@ -1,38 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectDirector : MonoBehaviour
+public class ObjectDetector : MonoBehaviour
 {
-    [SerializeField] private TowerSpawner towerSpawner;
+    [SerializeField]
+    private TowerSpawner towerSpawner;
 
-    Camera maincamara;
-    Ray ray;
-    RaycastHit hit;
+    private Camera mainCamera;
+    private Ray ray;
+    private RaycastHit hit;
 
     private void Awake()
     {
-        //"maincamera" 태그를 가지고 있는 오브젝트 탐색 후  camera 컴포넌트 정보 전달
-        maincamara = Camera.main;
+        mainCamera = Camera.main;
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            ray = maincamara.ScreenPointToRay(Input.mousePosition);
+            ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 if (hit.transform.CompareTag("Tile"))
                 {
-                    print("tile");
                     towerSpawner.SpawnTower(hit.transform);
                 }
-                else if (hit.transform.CompareTag("Tower"))
+                if (hit.transform.CompareTag("Tower"))
                 {
-                    print("Tower");
-                    //타워 클릭시 행동 이곳에
                 }
             }
         }
     }
+
 }

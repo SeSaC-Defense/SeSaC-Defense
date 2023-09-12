@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5126494749709556283}
   - component: {fileID: 8009598609014249696}
   - component: {fileID: 7762838238233931121}
+  - component: {fileID: -8949336055729300410}
   m_Layer: 0
   m_Name: Attack2
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,3 +149,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-8949336055729300410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7631451649376103117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ccd045101506c243b9db4bddd7ee57f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

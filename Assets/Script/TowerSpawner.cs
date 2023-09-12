@@ -14,7 +14,7 @@ public class TowerSpawner : MonoBehaviour
     private bool magition2IsBuild = false;
     private bool magition3IsBuild = false;
     private bool magition4IsBuild = false;
-    private bool barrackIsBuild = false;
+    private bool barrackIsBuild   = false;
    
     public void ReadyToMagition1()
     {
@@ -58,7 +58,7 @@ public class TowerSpawner : MonoBehaviour
             magition3IsBuild = false;
             magition3IsBuild = false;
             magition4IsBuild = false;
-            barrackIsBuild = false;
+            barrackIsBuild   = false;
         }
         else if(magition1IsBuild == true)
         {
