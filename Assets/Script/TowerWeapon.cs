@@ -35,7 +35,7 @@ public class TowerWeapon : MonoBehaviour
         }
     }
 
-    private void RotateToTarget()
+    private void RotateToTarget() // 적의 위체에 따른 타워의 방향 설정
     {   
         if(gameObject.transform.position.x > attackTarget.position.x)
         {
@@ -76,7 +76,6 @@ public class TowerWeapon : MonoBehaviour
         {
             if(attackTarget == null)
             {
-                print("표적없음");
                 ChangeState(WeaponState.SearchTarget); 
                 break;
             }
@@ -84,7 +83,6 @@ public class TowerWeapon : MonoBehaviour
             float distance = Vector3.Distance(attackTarget.position, transform.position);
             if (distance > attackRange)
             {
-                print("표적 사라짐");
                 attackTarget = null;
                 ChangeState(WeaponState.SearchTarget); 
                 break;
@@ -96,7 +94,6 @@ public class TowerWeapon : MonoBehaviour
     }
     private void SpawnProjectile()
     {
-        print("빵야");
         GameObject clone = Instantiate(projectilePrefab, spawnPoint);
         clone.GetComponent<Projectile>().Setup(attackTarget);
     }

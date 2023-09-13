@@ -11,6 +11,9 @@ TagManager:
   - WayPoint
   - Unit
   - Enemy
+  - Waypoint
+  - EnemyAttack
+  - Barrack
   layers:
   - Default
   - TransparentFX

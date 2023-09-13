@@ -5,20 +5,20 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private float spawnTime;
-    [SerializeField] private Transform[] wayPoints;
+    [SerializeField] private GameObject     enemyPrefab; 
+    [SerializeField] private float          spawnTime;
+    [SerializeField] private Transform[]    wayPoints;
     private List<Enemy> enemyList;
 
     public List<Enemy> EnemyList => enemyList;
 
     private void Awake()
     {
-        enemyList = new List<Enemy>();
+        enemyList = new List<Enemy>(); //积己等 蜡粗阑 历厘
         StartCoroutine("SpawnEnemy");
     }
 
-    private IEnumerator SpawnEnemy()
+    private IEnumerator SpawnEnemy() //积己肺流
     {
         while (true)
         {

@@ -6,11 +6,11 @@ using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
-    private int wayPointCount;
-    private Transform[] wayPoints;
-    private int currentIndex = 0;
-    private Movement2D movement2D;
-    private EnemySpawner enemySpawner;
+    private int             wayPointCount;
+    private Transform[]     wayPoints;
+    private int             currentIndex = 0;
+    private Movement2D      movement2D;
+    private EnemySpawner    enemySpawner;
 
     public void Setup(EnemySpawner enemySpawner, Transform[] wayPoint)
     {
@@ -44,9 +44,9 @@ public class Enemy : MonoBehaviour
     {
         if(currentIndex < wayPoints.Length - 1) 
         { 
-            transform.position = wayPoints[currentIndex].position;
+            transform.position  = wayPoints[currentIndex].position;
             currentIndex++;
-            Vector3 direction = (wayPoints[currentIndex].position - transform.position).normalized;
+            Vector3 direction   = (wayPoints[currentIndex].position - transform.position).normalized;
             movement2D.MoveTo(direction);
         }
         else
