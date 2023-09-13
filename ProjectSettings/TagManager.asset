@@ -4,8 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Waypoint
   - Tile
+  - Tower
+  - Attack
+  - EnemyWayPoint
+  - WayPoint
+  - Unit
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -42,4 +47,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Tile
+    uniqueID: 3512876617
+    locked: 0
+  - name: Attack
+    uniqueID: 2157286493
+    locked: 0
+  - name: Unit
+    uniqueID: 313633635
+    locked: 0
+  - name: Tower
+    uniqueID: 1212409499
     locked: 0

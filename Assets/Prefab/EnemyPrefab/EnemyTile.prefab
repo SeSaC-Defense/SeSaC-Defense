@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2778419297577519270}
   - component: {fileID: -8729550998974287030}
   m_Layer: 0
-  m_Name: Tile
-  m_TagString: Tile
+  m_Name: EnemyTile
+  m_TagString: EnemyTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

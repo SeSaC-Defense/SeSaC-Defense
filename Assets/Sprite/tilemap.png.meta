@@ -753,7 +753,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magition1
+      name: Magition1
       rect:
         serializedVersion: 2
         x: 68
@@ -824,7 +824,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -845,7 +845,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -866,7 +866,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -890,11 +890,11 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Door: 882665476
+      Magition1: 451642382
       Magition2: -981720983
       Magition3: 1521262063
       Magition4: -1721562039
       Tower: 2026670778
-      magition1: 451642382
       tilemap_0: 356048511
       tilemap_1: -2005306174
       tilemap_10: 230038884
