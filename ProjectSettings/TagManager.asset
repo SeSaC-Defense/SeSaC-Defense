@@ -11,6 +11,10 @@ TagManager:
   - WayPoint
   - Unit
   - Enemy
+  - Waypoint
+  - EnemyAttack
+  - EnemyTile
+  - TileHighlight
   layers:
   - Default
   - TransparentFX
