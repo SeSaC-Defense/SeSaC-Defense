@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundVO : MonoBehaviour, IUIToggleSliderVO, IUIToggleSliderAction
+public class SoundVO : MonoBehaviour, IToggleSliderVO, IToggleSliderAction
 {
     public bool isOn = true;
     public float volume = 1f;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIToggleSlider : MonoBehaviour
+public class ToggleSlider : MonoBehaviour
 {
     [SerializeField]
     private Toggle toggle;
@@ -13,14 +13,14 @@ public class UIToggleSlider : MonoBehaviour
     private GameObject targetObject;
     private bool TargetBool
     {
-        get => targetObject.GetComponent<IUIToggleSliderVO>().GetOptionValueBool();
-        set => targetObject.GetComponent<IUIToggleSliderVO>().SetOptionValue(value);
+        get => targetObject.GetComponent<IToggleSliderVO>().GetOptionValueBool();
+        set => targetObject.GetComponent<IToggleSliderVO>().SetOptionValue(value);
     }
 
     private float TargetFloat
     {
-        get => targetObject.GetComponent<IUIToggleSliderVO>().GetOptionValueFloat();
-        set => targetObject.GetComponent<IUIToggleSliderVO>().SetOptionValue(value);
+        get => targetObject.GetComponent<IToggleSliderVO>().GetOptionValueFloat();
+        set => targetObject.GetComponent<IToggleSliderVO>().SetOptionValue(value);
     }
 
     private void Awake()
@@ -33,12 +33,12 @@ public class UIToggleSlider : MonoBehaviour
     {
         toggle.isOn = slider.value > 0;
         TargetFloat = slider.value;
-        targetObject.GetComponent<IUIToggleSliderAction>().ToggleSliderAction();
+        targetObject.GetComponent<IToggleSliderAction>().ToggleSliderAction();
         Debug.Log(slider.value);
     }
     public void OnOptionToggleChange()
     {
         TargetBool = toggle.isOn;
-        targetObject.GetComponent<IUIToggleSliderAction>().ToggleSliderAction();
+        targetObject.GetComponent<IToggleSliderAction>().ToggleSliderAction();
     }
 }
