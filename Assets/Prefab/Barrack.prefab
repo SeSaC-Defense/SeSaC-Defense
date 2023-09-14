@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1782354627505655586}
   - component: {fileID: 5663828076926268479}
-  - component: {fileID: 4705073894255359122}
+  - component: {fileID: -5395315398538640884}
   m_Layer: 0
   m_Name: Barrack
   m_TagString: Tower
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4705073894255359122
+--- !u!114 &-5395315398538640884
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,11 +94,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 2493035652158777139}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 412296b63e4822f4aa9799426c94e65c, type: 3}
+  m_Script: {fileID: 11500000, guid: ef895b6c1c8631d4b8396164bd7684fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit1: {fileID: 9135633825071683195, guid: 2261c7883aba7894897cda343cbdd738, type: 3}
-  unit2: {fileID: 6982864940095610916, guid: 0fc4730cf4291c64b868c9b27dc16261, type: 3}
-  unit3: {fileID: 8417231674026362127, guid: a168bc17c4d2c9546bc8de52828b793a, type: 3}
-  unit4: {fileID: 6997092030087959833, guid: 49ea79714ee5d9c42905dce25eb1fe54, type: 3}
-  spawnTime: 3
+  unit: []
+  spawnTime: 0

@@ -1,18 +1,24 @@
 using System.Collections;
 using UnityEngine;
 
-public enum WeaponState { SearchTarget = 0, AttackToTarget }
+public enum WeaponType {  Canon }
+public enum WeaponState { SearchTarget = 0, TryAttackCannon }
 
 public class TowerWeapon : MonoBehaviour
 {
-    [SerializeField] private GameObject     projectilePrefab;
-    [SerializeField] private Transform      spawnPoint;
-    [SerializeField] private float          attackRate      = 1.0f;
-    [SerializeField] private float          attackRange     = 10.0f;
+    [Header("Commons")]
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private WeaponType Weapontype;
+    
+    [Header("Magic")]
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private float attackRate  = 1.0f;
+    [SerializeField] private float attackRange = 5f;
 
     private WeaponState     weaponState     = WeaponState.SearchTarget;
     private Transform       attackTarget    = null;
     private EnemySpawner    enemySpawner;
+    
 
     public void Setup(EnemySpawner enemySpawner)
     {
@@ -52,41 +58,22 @@ public class TowerWeapon : MonoBehaviour
     {
         while (true)
         {
-            float closestDistSqr = Mathf.Infinity;
-            for(int i = 0; i < enemySpawner.EnemyList.Count; ++i) 
+            attackTarget = FindClosestAttackTarget();
+
+            if( attackTarget != null)
             {
-                float distansce = Vector3.Distance(enemySpawner.EnemyList[i].transform.position, transform.position);
-                if(distansce <= attackRange && distansce <= closestDistSqr)
-                {
-                    closestDistSqr  = distansce;
-                    attackTarget    = enemySpawner.EnemyList[i].transform;
-                }
-            }
-            if (attackTarget != null)
-            {
-                ChangeState(WeaponState.AttackToTarget);
+                ChangeState(WeaponState.TryAttackCannon);
             }
             yield return null;
         }
-        
     }
-    private IEnumerator AttackToTarget()
+    private IEnumerator TryAttackCannon()
     {
         while (true)
         {
-            if(attackTarget == null)
+            if( IsPossibleToAttackTarget() == false)
             {
-                print("표적없음");
-                ChangeState(WeaponState.SearchTarget); 
-                break;
-            }
-
-            float distance = Vector3.Distance(attackTarget.position, transform.position);
-            if (distance > attackRange)
-            {
-                print("표적 사라짐");
-                attackTarget = null;
-                ChangeState(WeaponState.SearchTarget); 
+                ChangeState(WeaponState.SearchTarget);
                 break;
             }
             yield return new WaitForSeconds(attackRate);
@@ -94,9 +81,39 @@ public class TowerWeapon : MonoBehaviour
             SpawnProjectile();
         }
     }
+
+    private Transform FindClosestAttackTarget()
+    {
+        float ClosestDistSqr = Mathf.Infinity;
+        for ( int i = 0; i < enemySpawner.EnemyList.Count; ++i)
+        {
+            float distance = Vector3.Distance(enemySpawner.EnemyList[i].transform.position, transform.position);
+            if ( distance <= attackRange && distance <= ClosestDistSqr)
+            {
+                ClosestDistSqr  = distance;
+                attackTarget    = enemySpawner.EnemyList[i].transform;
+            }
+        }
+        return attackTarget;
+    }
+    private bool IsPossibleToAttackTarget()
+    {
+        if( attackTarget == null)
+        {
+            return false;
+        }
+
+        float distance = Vector3.Distance(attackTarget.position, transform.position );
+        if( distance > attackRange)
+        {
+            attackTarget = null;
+            return false;
+        }
+        return true;
+    }
+
     private void SpawnProjectile()
     {
-        print("빵야");
         GameObject clone = Instantiate(projectilePrefab, spawnPoint);
         clone.GetComponent<Projectile>().Setup(attackTarget);
     }

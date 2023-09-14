@@ -17,6 +17,7 @@ public class TowerSpawner : Singleton<TowerSpawner>
 {
     [SerializeField] private GameObject[]   towerPrefab;
     [SerializeField] private EnemySpawner   enemySpawner;
+    [SerializeField] private Transform[]    wayPoints;
     public TowerType TowerChosen { get; set; }
 
     public void SpawnTower(Transform tileTransform)
@@ -27,6 +28,11 @@ public class TowerSpawner : Singleton<TowerSpawner>
         if (tile.IsBuildTower == true) return;
         tile.IsBuildTower = true;
         GameObject clone = Instantiate(towerPrefab[ix], tileTransform);
+        if (ix == 0)
+        {
+            clone.GetComponent<UnitSpawner>().Setup(wayPoints);
+            return;
+        }
         clone.GetComponent<TowerWeapon>().Setup(enemySpawner);
     }
 
