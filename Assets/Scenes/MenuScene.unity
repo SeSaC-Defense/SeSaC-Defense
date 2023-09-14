@@ -163,6 +163,18 @@ PrefabInstance:
       propertyPath: m_IsOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6104932765399634190, guid: 2fff864ab2ff7f14a9314a2253a90f09, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 866690632}
+    - target: {fileID: 6104932765399634190, guid: 2fff864ab2ff7f14a9314a2253a90f09, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnOptionToggleChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 6104932765399634190, guid: 2fff864ab2ff7f14a9314a2253a90f09, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ToggleSlider, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7052187573039928966, guid: 2fff864ab2ff7f14a9314a2253a90f09, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.8
@@ -372,7 +384,7 @@ GameObject:
   - component: {fileID: 702334749}
   - component: {fileID: 702334751}
   m_Layer: 5
-  m_Name: PanelMaskConfig
+  m_Name: PanelMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -788,6 +800,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7844774777252991610, guid: 2fff864ab2ff7f14a9314a2253a90f09, type: 3}
   m_PrefabInstance: {fileID: 459111208}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &866690632 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 415088732688418322, guid: 2fff864ab2ff7f14a9314a2253a90f09, type: 3}
+  m_PrefabInstance: {fileID: 459111208}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2df0586d7edf53b4780c1d1902762fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &888583528
 GameObject:
   m_ObjectHideFlags: 0
