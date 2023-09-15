@@ -22,10 +22,12 @@ public class TowerSpawner : Singleton<TowerSpawner>
 
     public void SpawnTower(Transform tileTransform)
     {
+        Debug.Log("SpawnTower1");
         int ix = (int)TowerChosen;
         Tile tile = tileTransform.GetComponent<Tile>();
 
         if (tile.IsBuildTower == true) return;
+        Debug.Log("SpawnTower2");
         tile.IsBuildTower = true;
         GameObject clone = Instantiate(towerPrefab[ix], tileTransform);
         if (ix == 0)
