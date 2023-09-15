@@ -14,17 +14,13 @@ public class ButtonGroupToggle : MonoBehaviour
 {
     [Header("Button Groups")]
     [SerializeField]
-    private GameObject buttonGroupTower;
+    private GameObject buttonGroupBuilding;
     [SerializeField]
     private GameObject buttonGroupBarrackOnWaiting;
-    [SerializeField]
-    private GameObject buttonGroupBarrackOnProducing;
     [SerializeField]
     private GameObject buttonGroupConstructionConfirming;
 
     private GameObject currentButtonGroup;
-
-    public Transform HitTransform { get; set; }
 
     private void Start()
     {
@@ -39,13 +35,11 @@ public class ButtonGroupToggle : MonoBehaviour
         switch (state)
         {
             case UIStateType.TowerPressed:
-                currentButtonGroup = buttonGroupTower;
+            case UIStateType.BarrackPressedOnProducing:
+                currentButtonGroup = buttonGroupBuilding;
                 break;
             case UIStateType.BarrackPressedOnWaiting:
                 currentButtonGroup = buttonGroupBarrackOnWaiting;
-                break;
-            case UIStateType.BarrackPressedOnProducing:
-                currentButtonGroup = buttonGroupBarrackOnProducing;
                 break;
             case UIStateType.ConstructionConfirming:
                 currentButtonGroup = buttonGroupConstructionConfirming;
@@ -60,6 +54,6 @@ public class ButtonGroupToggle : MonoBehaviour
         }
 
         currentButtonGroup.SetActive(true);
-        currentButtonGroup.GetComponent<UIPosition>().MoveTo(HitTransform);
+        currentButtonGroup.GetComponent<UIPosition>().MoveTo(ObjectDetector.Instance.HitTransform);
     }
 }

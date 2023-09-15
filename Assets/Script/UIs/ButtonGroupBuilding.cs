@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class ButtonGroupConstructionConfirming : MonoBehaviour
+public class ButtonGroupBuilding : MonoBehaviour
 {
-    [SerializeField]
-    private Sprite[] towerImages;
-    public Sprite[] TowerImages { get => towerImages; }
-
-    public void OnConfirm()
+    public void OnDestruct()
     {
         GetComponent<UIActiveToggle>().CloseUI();
-        TowerSpawner.Instance.SpawnTower(ObjectDetector.Instance.HitTransform);
+        Destroy(ObjectDetector.Instance.HitTransform.gameObject);
+        Tile tile = ObjectDetector.Instance.HitTransform.parent.GetComponent<Tile>();
+        tile.IsBuildTower = false;
+        // TODO: 재화 반환
         GetComponent<UIStateToggle>().OnToggle();
     }
 
