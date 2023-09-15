@@ -26,6 +26,8 @@ public class ObjectDetector : Singleton<ObjectDetector>
             switch ((hit.transform.tag, UIStateEventHandler.Instance.CurrentState))
             {
                 case ("Tile", UIStateType.ConstructionChecking):
+                    if (hit.transform.GetComponent<Tile>().IsBuildTower)
+                        return;
                     UIStateEventHandler.Instance.ChangeState(UIStateType.ConstructionConfirming);
                     break;
                 case ("Tower", UIStateType.None):
@@ -47,6 +49,15 @@ public class ObjectDetector : Singleton<ObjectDetector>
 
         if (!Input.GetMouseButtonDown(0))
             return false;
+
+        switch (UIStateEventHandler.Instance.CurrentState)
+        {
+            case UIStateType.ConstructionConfirming:
+            case UIStateType.DestructionConfirming:
+            case UIStateType.BarrackPressedOnWaiting:
+            case UIStateType.Config:
+                return false;
+        }
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         return Physics.Raycast(ray, out hit, Mathf.Infinity);
