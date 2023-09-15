@@ -2,28 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitSpawn : MonoBehaviour
+public class UnitSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject  unit1;
-    [SerializeField] private GameObject  unit2;
-    [SerializeField] private GameObject  unit3;
-    [SerializeField] private GameObject  unit4;
-    [SerializeField] private float       spawnTime;
+    [SerializeField] private GameObject[] unit;
+    [SerializeField] private float spawnTime;
 
     private GameObject spawnUnit; //스폰될 유닛
-    private Transform waypoint;
+    private Transform spawnPoint;
+    private Transform[] waypoints;
+
     private List<Unit> unitList;
     public List<Unit> UnitList => unitList;
+
+    public bool InOperation
+    {
+        set; get;
+    }
 
     private void Awake()
     {
         unitList = new List<Unit>();
+        InOperation = false;
+
     }
     private void Start()
     {
         WayPointScan();
     }
-    public void WayPointScan()
+
+    public void Setup(Transform[] waypoints)
+    {
+        this.waypoints = waypoints;
+    }
+
+    public void WayPointScan() //waypoint중 가장 가까운것 탐색
     {
         GameObject[] wayPoints = GameObject.FindGameObjectsWithTag("WayPoint");
 
@@ -37,30 +49,15 @@ public class UnitSpawn : MonoBehaviour
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                this.waypoint = wayPoint.transform;
+                this.spawnPoint = wayPoint.transform; //가장 가까운 waypoint 저장
             }
         }
     }
-    
-    public void UnitChoice(string n)
+
+    public void UnitChoice(int unit)
     {
-        switch (n) //각 4가지의 버튼에 따라 생성될 유닛 설정
-        {
-            case "1":
-                spawnUnit = unit1;
-                break;
-            case "2":
-                spawnUnit = unit2;
-                break;
-            case "3":
-                spawnUnit = unit3;
-                break;
-            case "4":
-                spawnUnit = unit4;
-                break;
-            default:
-                break;
-        }
+        spawnUnit = this.unit[unit];
+        InOperation = true;
         StartCoroutine("SpawnUnit");
     }
 
@@ -70,8 +67,7 @@ public class UnitSpawn : MonoBehaviour
         {
             GameObject clone = Instantiate(spawnUnit); //유닛 생성
             Unit unit = clone.GetComponent<Unit>();
-            unit.SetUp(waypoint);                      //생성 유닛 정보처리 시작
-
+            unit.SetUp(waypoints, spawnPoint);                      //생성 유닛 정보처리 시작
             unitList.Add(unit);
             yield return new WaitForSeconds(spawnTime);
         }
