@@ -25,7 +25,9 @@ public class TowerSpawner : Singleton<TowerSpawner>
         int ix = (int)TowerChosen;
         Tile tile = tileTransform.GetComponent<Tile>();
 
-        if (tile.IsBuildTower == true) return;
+        if (tile.IsBuildTower == true)
+            return;
+
         tile.IsBuildTower = true;
         GameObject clone = Instantiate(towerPrefab[ix], tileTransform);
         if (ix == 0)

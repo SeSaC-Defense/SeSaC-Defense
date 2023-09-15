@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 279069354961049850}
   - component: {fileID: 1168303941870335637}
   - component: {fileID: 4384656293471114114}
+  - component: {fileID: 7777019631836864686}
   m_Layer: 0
   m_Name: Magician1
   m_TagString: Tower
@@ -98,10 +99,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac7e48dec646b054a9d712940f48ad8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 8099262729314815186, guid: 85a5f4cab6d852a418f24e3fbeb743d2, type: 3}
   spawnPoint: {fileID: 4882040143350141973}
+  Weapontype: 0
+  projectilePrefab: {fileID: 8099262729314815186, guid: 85a5f4cab6d852a418f24e3fbeb743d2, type: 3}
   attackRate: 1
   attackRange: 50
+--- !u!65 &7777019631836864686
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496395576502924931}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.9375, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &714059651223466356
 GameObject:
   m_ObjectHideFlags: 0
