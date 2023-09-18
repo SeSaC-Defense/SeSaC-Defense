@@ -25,6 +25,7 @@ public class TowerSpawner : Singleton<TowerSpawner>
 
     public void SpawnTower(Transform tileTransform)
     {
+        print("타워생성");
         int ix = (int)TowerChosen;
         Tile tile = tileTransform.GetComponent<Tile>();
         if (playerGold.CurrentGold < towerBuildGold)
