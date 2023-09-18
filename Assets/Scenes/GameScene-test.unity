@@ -1216,6 +1216,64 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1412913140049937419, guid: a4cd9d11067c18a4ba7c8a5738a0a079, type: 3}
   m_PrefabInstance: {fileID: 170626638}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &178425076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178425079}
+  - component: {fileID: 178425078}
+  - component: {fileID: 178425077}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &178425077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178425076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f5cc9d1371cd447bc20750d1d98601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGold: 10
+--- !u!114 &178425078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178425076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2a1cc33319acf438c91312995b9b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &178425079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178425076}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &190699848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2594,7 +2652,73 @@ MonoBehaviour:
   - {fileID: 4829203111869012748, guid: fc2eb074af893cd43a6bedc728f15963, type: 3}
   - {fileID: 7042628732633396466, guid: 3e80e61b18a481c41a6201b79e53b5d9, type: 3}
   enemySpawner: {fileID: 767722629}
-  wayPoints: []
+  wayPoints:
+  - {fileID: 1287412609}
+  - {fileID: 1319037486}
+  - {fileID: 478131320}
+  - {fileID: 1110966708}
+  - {fileID: 467871847}
+  - {fileID: 1124218428}
+  - {fileID: 989629624}
+  - {fileID: 1208102930}
+  - {fileID: 1438760723}
+  - {fileID: 2047898346}
+  - {fileID: 1954595232}
+  - {fileID: 923093873}
+  - {fileID: 2077918358}
+  - {fileID: 709135174}
+  - {fileID: 1087402710}
+  - {fileID: 567127006}
+  - {fileID: 2082848078}
+  - {fileID: 1598465798}
+  - {fileID: 1617961361}
+  - {fileID: 1590717625}
+  - {fileID: 2106313058}
+  - {fileID: 831640329}
+  - {fileID: 1180637243}
+  - {fileID: 1340969643}
+  - {fileID: 2126926338}
+  - {fileID: 405664404}
+  - {fileID: 1639780566}
+  - {fileID: 238544295}
+  - {fileID: 565765818}
+  - {fileID: 1817360247}
+  - {fileID: 241967413}
+  - {fileID: 1306283936}
+  - {fileID: 427465647}
+  - {fileID: 1367767893}
+  - {fileID: 2060919957}
+  - {fileID: 261844268}
+  - {fileID: 1808039445}
+  - {fileID: 1982577185}
+  - {fileID: 1970276654}
+  - {fileID: 1628480883}
+  - {fileID: 989126874}
+  - {fileID: 292701527}
+  - {fileID: 470879418}
+  - {fileID: 1658268953}
+  - {fileID: 1840825020}
+  - {fileID: 1787624538}
+  - {fileID: 1695774079}
+  - {fileID: 712286855}
+  - {fileID: 393353268}
+  - {fileID: 1261995265}
+  - {fileID: 528091741}
+  - {fileID: 866239321}
+  - {fileID: 1568682711}
+  - {fileID: 1878094453}
+  - {fileID: 761785272}
+  - {fileID: 595006132}
+  - {fileID: 1459473238}
+  - {fileID: 1230069944}
+  - {fileID: 1069951754}
+  - {fileID: 165643286}
+  - {fileID: 1904073178}
+  - {fileID: 558556540}
+  - {fileID: 656548279}
+  - {fileID: 1922124155}
+  playerGold: {fileID: 178425077}
+  towerBuildGold: 5
 --- !u!4 &326041111
 Transform:
   m_ObjectHideFlags: 0
@@ -7333,6 +7457,8 @@ MonoBehaviour:
   - {fileID: 959298780}
   - {fileID: 103537843}
   - {fileID: 2008898384}
+  player: {fileID: 178425078}
+  playerGold: {fileID: 178425077}
 --- !u!1001 &779110825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26469,3 +26595,4 @@ SceneRoots:
   - {fileID: 767722628}
   - {fileID: 1213340077}
   - {fileID: 548754575}
+  - {fileID: 178425079}
