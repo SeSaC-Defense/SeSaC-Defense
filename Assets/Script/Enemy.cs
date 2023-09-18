@@ -4,23 +4,24 @@ using UnityEngine;
 using UnityEngine.Jobs;
 using UnityEngine.UIElements;
 
+public enum EnemyDestroyType { Kill = 0, Arrive }
 public class Enemy : MonoBehaviour
 {
-    private int wayPointCount;
-    private Transform[] wayPoints;
-    private int currentIndex = 0;
-    private Movement2D movement2D;
-    private EnemySpawner enemySpawner;
+    [SerializeField] int gold = 1;
+    private int             wayPointCount;
+    private Transform[]     wayPoints;
+    private int             currentIndex = 0;
+    private Movement2D      movement2D;
+    private EnemySpawner    enemySpawner;
 
     public void Setup(EnemySpawner enemySpawner, Transform[] wayPoint)
     {
-        movement2D = GetComponent<Movement2D>();
-        this.enemySpawner = enemySpawner;
-        wayPointCount = wayPoint.Length;
-        this.wayPoints = new Transform[wayPointCount];
-        this.wayPoints = wayPoint;
-
-        transform.position = wayPoint[currentIndex].position;
+        movement2D          = GetComponent<Movement2D>();
+        this.enemySpawner   = enemySpawner;
+        wayPointCount       = wayPoint.Length;
+        this.wayPoints      = new Transform[wayPointCount];
+        this.wayPoints      = wayPoint;
+        transform.position  = wayPoint[currentIndex].position;
 
         StartCoroutine("OnMove");
     }
@@ -51,11 +52,12 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            OnDie();
+            gold = 0;
+            OnDie(EnemyDestroyType.Arrive);
         }
     }
-    public void OnDie()
+    public void OnDie(EnemyDestroyType type)
     {
-        enemySpawner.DestroyEnemy(this);
+        enemySpawner.DestroyEnemy(type, this, gold);
     }
 }
