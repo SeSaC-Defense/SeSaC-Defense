@@ -7,21 +7,23 @@ using UnityEngine.UIElements;
 public enum EnemyDestroyType { Kill = 0, Arrive }
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] int gold = 1;
-    private int             wayPointCount;
-    private Transform[]     wayPoints;
-    private int             currentIndex = 0;
-    private Movement2D      movement2D;
-    private EnemySpawner    enemySpawner;
+    [SerializeField]
+    int gold = 1;
+
+    private int wayPointCount;
+    private Transform[] wayPoints;
+    private int currentIndex = 0;
+    private Movement2D movement2D;
+    private EnemySpawner enemySpawner;
 
     public void Setup(EnemySpawner enemySpawner, Transform[] wayPoint)
     {
-        movement2D          = GetComponent<Movement2D>();
-        this.enemySpawner   = enemySpawner;
-        wayPointCount       = wayPoint.Length;
-        this.wayPoints      = new Transform[wayPointCount];
-        this.wayPoints      = wayPoint;
-        transform.position  = wayPoint[currentIndex].position;
+        movement2D = GetComponent<Movement2D>();
+        this.enemySpawner = enemySpawner;
+        wayPointCount = wayPoint.Length;
+        this.wayPoints = new Transform[wayPointCount];
+        this.wayPoints = wayPoint;
+        transform.position = wayPoint[currentIndex].position;
 
         StartCoroutine("OnMove");
     }

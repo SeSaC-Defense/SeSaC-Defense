@@ -7,17 +7,22 @@ public enum WeaponState { SearchTarget = 0, TryAttackCannon }
 public class TowerWeapon : MonoBehaviour
 {
     [Header("Commons")]
-    [SerializeField] private Transform spawnPoint;
-    [SerializeField] private WeaponType Weapontype;
+    [SerializeField]
+    private Transform spawnPoint;
+    [SerializeField]
+    private WeaponType Weapontype;
     
     [Header("Magic")]
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float attackRate  = 1.0f;
-    [SerializeField] private float attackRange = 5f;
+    [SerializeField]
+    private GameObject projectilePrefab;
+    [SerializeField]
+    private float attackRate  = 1.0f;
+    [SerializeField]
+    private float attackRange = 5f;
 
-    private WeaponState     weaponState     = WeaponState.SearchTarget;
-    private Transform       attackTarget    = null;
-    private EnemySpawner    enemySpawner;
+    private WeaponState weaponState     = WeaponState.SearchTarget;
+    private Transform attackTarget    = null;
+    private EnemySpawner enemySpawner;
     
 
     public void Setup(EnemySpawner enemySpawner)
@@ -76,9 +81,8 @@ public class TowerWeapon : MonoBehaviour
                 ChangeState(WeaponState.SearchTarget);
                 break;
             }
-            yield return new WaitForSeconds(attackRate);
-
             SpawnProjectile();
+            yield return new WaitForSeconds(attackRate);
         }
     }
 
@@ -90,8 +94,8 @@ public class TowerWeapon : MonoBehaviour
             float distance = Vector3.Distance(enemySpawner.EnemyList[i].transform.position, transform.position);
             if ( distance <= attackRange && distance <= ClosestDistSqr)
             {
-                ClosestDistSqr  = distance;
-                attackTarget    = enemySpawner.EnemyList[i].transform;
+                ClosestDistSqr = distance;
+                attackTarget = enemySpawner.EnemyList[i].transform;
             }
         }
         return attackTarget;

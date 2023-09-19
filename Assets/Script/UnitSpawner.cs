@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class UnitSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject[] unit;
-    [SerializeField] private float spawnTime;
+    [SerializeField]
+    private GameObject[] unit;
+    [SerializeField]
+    private float spawnTime;
 
     private GameObject spawnUnit; //½ºÆùµÉ À¯´Ö
     private Transform spawnPoint;

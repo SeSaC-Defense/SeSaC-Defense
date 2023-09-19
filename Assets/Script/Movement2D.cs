@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Movement2D : MonoBehaviour
 {
-    [SerializeField] private float      moveSpeed        = 0.0f; //유닛 이동속도
-    [SerializeField] private Vector3    moveDirection    = Vector3.zero;
+    [SerializeField]
+    private float moveSpeed = 0.0f; //유닛 이동속도
+    [SerializeField]
+    private Vector3 moveDirection = Vector3.zero;
 
     public float MoveSpeed => moveSpeed;
 

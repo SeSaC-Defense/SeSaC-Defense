@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject     enemyPrefab;
-    [SerializeField] private float          spawnTime;
-    [SerializeField] private Transform[]    wayPoints;
-    [SerializeField] private Player         player;
-    [SerializeField] private PlayerGold     playerGold;
+    [SerializeField]
+    private GameObject enemyPrefab;
+    [SerializeField]
+    private float spawnTime;
+    [SerializeField]
+    private Transform[] wayPoints;
+    [SerializeField]
+    private Player player;
+    [SerializeField]
+    private PlayerGold playerGold;
     
     private List<Enemy> enemyList;
 
