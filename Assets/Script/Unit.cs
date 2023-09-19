@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    private int             wayPointCount;      //이동 경로 개수
-    private Transform[]     wayPoints;      //이동 경로 정보
-    private int             currentIndex = 0;   //현재 목표지점 인덱스
-    private Movement2D      movement2D;         //오브젝트 이동 제어
+    private int wayPointCount;      //이동 경로 개수
+    private Transform[] wayPoints;      //이동 경로 정보
+    private int currentIndex = 0;   //현재 목표지점 인덱스
+    private Movement2D movement2D;         //오브젝트 이동 제어
 
     public void SetUp(Transform[] wayPoints, Transform spawnPoint)
     {
-        movement2D      = GetComponent<Movement2D>();
-        this.wayPoints  = wayPoints;
-        wayPointCount   = wayPoints.Length;         //유닛 이동 경로 waypoint 정보 설정
+        movement2D = GetComponent<Movement2D>();
+        this.wayPoints = wayPoints;
+        wayPointCount = wayPoints.Length;         //유닛 이동 경로 waypoint 정보 설정
 
         for (int i = 0; i < wayPointCount; i++)
         {
