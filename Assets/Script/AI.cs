@@ -15,6 +15,8 @@ public class AI : MonoBehaviour
     private Transform[] tile;
     [SerializeField]
     private EnemySpawner enemySpawner;
+    [SerializeField]
+    private UnitSpawner unitSpawner;
 
     private float currentGold; //현재 소유한 골드
     private float towerBuildGold; //건설에 필요한 골드
@@ -26,12 +28,14 @@ public class AI : MonoBehaviour
 
     private void Start()
     {
-        Warning(); //첫 시작은 타워 1개로 시작
-        saveTile = tile[5];
-        StartCoroutine(Build());
+        TileScan();
+        Build(1); //첫 시작은 타워 1개로 시작
+        saveTile = tile[10];
+        print("saveTile" + saveTile.position);
+        StartCoroutine(Building());
     }
 
-    private IEnumerator Build() //설치 반복문
+    private IEnumerator Building() //설치 반복문
     {
         while(true)
         {
@@ -54,14 +58,15 @@ public class AI : MonoBehaviour
                         attack = false;
                     }
                 }
-
                 if(attack == true)
                 {
-                    Warning();
+                    TileScan();
+                    Build(1);
                 }
                 else if (attack == false)
                 {
-                    Safety();
+                    TileScan();
+                    Build(0);
                 }
                 yield return new WaitForSeconds(1);
                 
@@ -69,20 +74,28 @@ public class AI : MonoBehaviour
         }
     }
 
-    public void Safety() //배럭 설치 함수
+    public void Build(int i) //배럭 설치 함수
     {
-        this.choiceTile = tile[Random.Range(0, tile.Length)];
-        towerPrefabIndex = 0;
+        towerPrefabIndex = i;
         towerSpawner.SetTowerType(towerPrefabIndex);
         towerSpawner.SpawnTower(choiceTile);
-        //배럭 유닛 생성 추가 조작
+        if (i == 0)
+        {
+            //설치된 타워에 unitspawner에 접근해야하는데 어캐하노
+            //unitSpawner.GetComponent<UnitSpawner>().UnitChoice(Random.Range(0, 3));
+        }
     }
 
-    public void Warning() //타워 설치 함수
+    public void TileScan()
     {
-        this.choiceTile = tile[Random.Range(0, tile.Length)];
-        towerPrefabIndex = 1; //타워 종류 생길 경우 추가 조작
-        towerSpawner.SetTowerType(towerPrefabIndex);
-        towerSpawner.SpawnTower(choiceTile);
+        for( int i = 0; i < tile.Length; i++)
+        {
+            Transform t = tile[Random.Range(0, tile.Length)];
+            if (t.GetComponent<Tile>().IsBuildTower == false)
+            {
+                this.choiceTile = t;
+                return;
+            }
+        }
     }
 }
