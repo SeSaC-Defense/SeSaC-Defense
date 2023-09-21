@@ -12,11 +12,9 @@ public class AI : MonoBehaviour
     [SerializeField]
     private TowerSpawner towerSpawner;
     [SerializeField]
-    private Transform[] tile;
+    private Transform[] tiles;
     [SerializeField]
     private EnemySpawner enemySpawner;
-    [SerializeField]
-    private UnitSpawner unitSpawner;
 
     private float currentGold; //현재 소유한 골드
     private float towerBuildGold; //건설에 필요한 골드
@@ -26,11 +24,12 @@ public class AI : MonoBehaviour
     private int enemyNumbers; //적의 수
     private bool attack = false; //배럭을 지을지, 타워를 지을지
 
+
     private void Start()
     {
         TileScan();
         Build(1); //첫 시작은 타워 1개로 시작
-        saveTile = tile[10];
+        saveTile = tiles[10];
         print("saveTile" + saveTile.position);
         StartCoroutine(Building());
     }
@@ -67,6 +66,8 @@ public class AI : MonoBehaviour
                 {
                     TileScan();
                     Build(0);
+                    yield return new WaitForSeconds(1);
+                    UnitSpawn();
                 }
                 yield return new WaitForSeconds(1);
                 
@@ -79,18 +80,24 @@ public class AI : MonoBehaviour
         towerPrefabIndex = i;
         towerSpawner.SetTowerType(towerPrefabIndex);
         towerSpawner.SpawnTower(choiceTile);
-        if (i == 0)
+    }
+
+    public void UnitSpawn()
+    {
+        foreach (Transform t in choiceTile) //배럭이 설치된 타일에서
         {
-            //설치된 타워에 unitspawner에 접근해야하는데 어캐하노
-            //unitSpawner.GetComponent<UnitSpawner>().UnitChoice(Random.Range(0, 3));
-        }
+            if (t.CompareTag("Barrack")) //자식 오브젝트중 Tower 태그를 가진 오브젝트를 불러와서 UnitChoice함수 시작
+            {
+                t.GetComponent<UnitSpawner>().UnitChoice(Random.Range(0, 3));
+            }
+        } 
     }
 
     public void TileScan()
     {
-        for( int i = 0; i < tile.Length; i++)
+        for( int i = 0; i < tiles.Length; i++)
         {
-            Transform t = tile[Random.Range(0, tile.Length)];
+            Transform t = tiles[Random.Range(0, tiles.Length)];
             if (t.GetComponent<Tile>().IsBuildTower == false)
             {
                 this.choiceTile = t;
