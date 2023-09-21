@@ -53,6 +53,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
+            PlayerUnitList.Instance.UnitList.Remove(this);
             Destroy(gameObject); //다음 waypoint가 존재하지않으면 유닛 삭제
         }
     }

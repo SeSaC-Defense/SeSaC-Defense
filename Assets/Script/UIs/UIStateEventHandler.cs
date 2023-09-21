@@ -9,9 +9,8 @@ public enum UIStateType
     None,
     ConstructionChecking,
     ConstructionConfirming,
-    TowerPressed,
+    BuildingPressed,
     BarrackPressedOnWaiting,
-    BarrackPressedOnProducing,
     DestructionConfirming,
     Config,
     EnemyBase
