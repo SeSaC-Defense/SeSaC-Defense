@@ -34,8 +34,7 @@ public class ButtonGroupToggle : MonoBehaviour
 
         switch (state)
         {
-            case UIStateType.TowerPressed:
-            case UIStateType.BarrackPressedOnProducing:
+            case UIStateType.BuildingPressed:
                 currentButtonGroup = buttonGroupBuilding;
                 break;
             case UIStateType.BarrackPressedOnWaiting:

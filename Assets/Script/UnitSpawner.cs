@@ -13,8 +13,8 @@ public class UnitSpawner : MonoBehaviour
     private Transform spawnPoint;
     private Transform[] waypoints;
 
-    private List<Unit> unitList;
-    public List<Unit> UnitList => unitList;
+    //private List<Unit> unitList;
+    //public List<Unit> UnitList => unitList;
 
     public bool InOperation
     {
@@ -23,7 +23,7 @@ public class UnitSpawner : MonoBehaviour
 
     private void Awake()
     {
-        unitList = new List<Unit>();
+        //unitList = new List<Unit>();
         InOperation = false;
 
     }
@@ -70,7 +70,7 @@ public class UnitSpawner : MonoBehaviour
             GameObject clone = Instantiate(spawnUnit); //유닛 생성
             Unit unit = clone.GetComponent<Unit>();
             unit.SetUp(waypoints, spawnPoint);                      //생성 유닛 정보처리 시작
-            unitList.Add(unit);
+            PlayerUnitList.Instance.UnitList.Add(unit);
             yield return new WaitForSeconds(spawnTime);
         }
     }

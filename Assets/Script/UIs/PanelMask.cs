@@ -5,7 +5,9 @@ using UnityEngine;
 public class PanelMask : MonoBehaviour
 {
     [SerializeField]
-    private UIActiveToggle uiActiveToggle;
+    private UIActiveToggle maskBlack;
+    [SerializeField]
+    private UIActiveToggle maskTransparent;
 
     void Start()
     {
@@ -19,10 +21,16 @@ public class PanelMask : MonoBehaviour
             case UIStateType.BarrackPressedOnWaiting:
             case UIStateType.ConstructionConfirming:
             case UIStateType.DestructionConfirming:
-                uiActiveToggle.OpenUI();
+                maskBlack.OpenUI();
+                maskTransparent.CloseUI();
+                break;
+            case UIStateType.BuildingPressed:
+                maskBlack.CloseUI();
+                maskTransparent.OpenUI();
                 break;
             default:
-                uiActiveToggle.CloseUI();
+                maskBlack.CloseUI();
+                maskTransparent.CloseUI();
                 break;
         }
     }

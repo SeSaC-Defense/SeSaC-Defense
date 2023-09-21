@@ -6,6 +6,8 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField]
+    UnitProgressBar unitProgressBar;
+    [SerializeField]
     private GameObject enemyPrefab;
     [SerializeField]
     private float spawnTime;
@@ -26,6 +28,22 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine("SpawnEnemy");
     }
 
+    private void Update()
+    {
+        float nearestEnemyPosition = 100;
+
+        foreach (Enemy enemy in enemyList)
+        {
+            float currentEnemyPosition = enemy.transform.position.x;
+            if (currentEnemyPosition < nearestEnemyPosition)
+            {
+                nearestEnemyPosition = currentEnemyPosition;
+            }
+        }
+
+        unitProgressBar.EnemyUnitPositionX = nearestEnemyPosition;
+    }
+
     private IEnumerator SpawnEnemy()
     {
         while (true)
@@ -37,6 +55,7 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnTime);
         }
     }
+
     public void DestroyEnemy(EnemyDestroyType type, Enemy enemy, int gold)
     {
         if(type == EnemyDestroyType.Arrive)

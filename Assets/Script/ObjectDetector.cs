@@ -21,7 +21,7 @@ public class ObjectDetector : Singleton<ObjectDetector>
         if (CanHit(out hit))
         {
             HitTransform = hit.transform;
-
+            Debug.Log(hit.transform);
             switch ((hit.transform.tag, UIStateEventHandler.Instance.CurrentState))
             {
                 case ("Tile", UIStateType.ConstructionChecking):
@@ -30,7 +30,7 @@ public class ObjectDetector : Singleton<ObjectDetector>
                     UIStateEventHandler.Instance.ChangeState(UIStateType.ConstructionConfirming);
                     break;
                 case ("Tower", UIStateType.None):
-                    UIStateEventHandler.Instance.ChangeState(UIStateType.TowerPressed);
+                    UIStateEventHandler.Instance.ChangeState(UIStateType.BuildingPressed);
                     break;
                 case ("Barrack", UIStateType.None):
                     ChangeUIStateForBarrack(hit);
@@ -54,8 +54,7 @@ public class ObjectDetector : Singleton<ObjectDetector>
             case UIStateType.ConstructionConfirming:
             case UIStateType.DestructionConfirming:
             case UIStateType.BarrackPressedOnWaiting:
-            case UIStateType.BarrackPressedOnProducing:
-            case UIStateType.TowerPressed:
+            case UIStateType.BuildingPressed:
             case UIStateType.Config:
                 return false;
         }
@@ -67,7 +66,7 @@ public class ObjectDetector : Singleton<ObjectDetector>
     private void ChangeUIStateForBarrack(RaycastHit hit)
     {
         if (hit.transform.GetComponent<UnitSpawner>().InOperation)
-            UIStateEventHandler.Instance.ChangeState(UIStateType.BarrackPressedOnProducing);
+            UIStateEventHandler.Instance.ChangeState(UIStateType.BuildingPressed);
         else
             UIStateEventHandler.Instance.ChangeState(UIStateType.BarrackPressedOnWaiting);
     }
