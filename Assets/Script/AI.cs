@@ -12,7 +12,7 @@ public class AI : MonoBehaviour
     [SerializeField]
     private TowerSpawner towerSpawner;
     [SerializeField]
-    private Transform[] tile;
+    private Transform[] tiles;
     [SerializeField]
     private EnemySpawner enemySpawner;
 
@@ -24,14 +24,17 @@ public class AI : MonoBehaviour
     private int enemyNumbers; //적의 수
     private bool attack = false; //배럭을 지을지, 타워를 지을지
 
+
     private void Start()
     {
-        Warning(); //첫 시작은 타워 1개로 시작
-        saveTile = tile[5];
-        StartCoroutine(Build());
+        TileScan();
+        Build(1); //첫 시작은 타워 1개로 시작
+        saveTile = tiles[10];
+        print("saveTile" + saveTile.position);
+        StartCoroutine(Building());
     }
 
-    private IEnumerator Build() //설치 반복문
+    private IEnumerator Building() //설치 반복문
     {
         while(true)
         {
@@ -54,14 +57,17 @@ public class AI : MonoBehaviour
                         attack = false;
                     }
                 }
-
                 if(attack == true)
                 {
-                    Warning();
+                    TileScan();
+                    Build(1);
                 }
                 else if (attack == false)
                 {
-                    Safety();
+                    TileScan();
+                    Build(0);
+                    yield return new WaitForSeconds(1);
+                    UnitSpawn();
                 }
                 yield return new WaitForSeconds(1);
                 
@@ -69,20 +75,34 @@ public class AI : MonoBehaviour
         }
     }
 
-    public void Safety() //배럭 설치 함수
+    public void Build(int i) //배럭 설치 함수
     {
-        this.choiceTile = tile[Random.Range(0, tile.Length)];
-        towerPrefabIndex = 0;
+        towerPrefabIndex = i;
         towerSpawner.SetTowerType(towerPrefabIndex);
         towerSpawner.SpawnTower(choiceTile);
-        //배럭 유닛 생성 추가 조작
     }
 
-    public void Warning() //타워 설치 함수
+    public void UnitSpawn()
     {
-        this.choiceTile = tile[Random.Range(0, tile.Length)];
-        towerPrefabIndex = 1; //타워 종류 생길 경우 추가 조작
-        towerSpawner.SetTowerType(towerPrefabIndex);
-        towerSpawner.SpawnTower(choiceTile);
+        foreach (Transform t in choiceTile) //배럭이 설치된 타일에서
+        {
+            if (t.CompareTag("Barrack")) //자식 오브젝트중 Tower 태그를 가진 오브젝트를 불러와서 UnitChoice함수 시작
+            {
+                t.GetComponent<UnitSpawner>().UnitChoice(Random.Range(0, 3));
+            }
+        } 
+    }
+
+    public void TileScan()
+    {
+        for( int i = 0; i < tiles.Length; i++)
+        {
+            Transform t = tiles[Random.Range(0, tiles.Length)];
+            if (t.GetComponent<Tile>().IsBuildTower == false)
+            {
+                this.choiceTile = t;
+                return;
+            }
+        }
     }
 }
