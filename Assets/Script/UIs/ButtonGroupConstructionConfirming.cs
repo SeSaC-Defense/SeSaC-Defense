@@ -9,10 +9,14 @@ public class ButtonGroupConstructionConfirming : MonoBehaviour
     private Sprite[] towerImages;
     public Sprite[] TowerImages { get => towerImages; }
 
+    int i = 1;
     public void OnConfirm()
     {
         GetComponent<UIActiveToggle>().CloseUI();
-        TowerSpawner.Instance.SpawnTower(ObjectDetector.Instance.HitTransform);
+        ICommand towerCommand = new TowerSpawn(ObjectDetector.Instance.HitIndex, i);
+        towerCommand.Execute();
+        Tile tile = ObjectDetector.Instance.HitTransform.GetComponent<Tile>();
+        tile.IsBuildTower = false;
         GetComponent<UIStateToggle>().OnToggle();
     }
 

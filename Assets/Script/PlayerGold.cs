@@ -1,8 +1,9 @@
+using Pattern;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGold : MonoBehaviour
+public class PlayerGold : Singleton<PlayerGold>
 {
     [SerializeField]
     private UICount goldText;

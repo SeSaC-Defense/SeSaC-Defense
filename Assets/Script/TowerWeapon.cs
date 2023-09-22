@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public enum WeaponType {  Canon }
+public enum WeaponType { Canon }
 public enum WeaponState { SearchTarget = 0, TryAttackCannon }
 
 public class TowerWeapon : MonoBehaviour
@@ -11,23 +11,21 @@ public class TowerWeapon : MonoBehaviour
     private Transform spawnPoint;
     [SerializeField]
     private WeaponType Weapontype;
-    
+
     [Header("Magic")]
     [SerializeField]
     private GameObject projectilePrefab;
     [SerializeField]
-    private float attackRate  = 1.0f;
+    private float attackRate = 1.0f;
     [SerializeField]
     private float attackRange = 5f;
 
-    private WeaponState weaponState     = WeaponState.SearchTarget;
-    private Transform attackTarget    = null;
-    private EnemySpawner enemySpawner;
-    
+    private WeaponState weaponState = WeaponState.SearchTarget;
+    private Transform attackTarget = null;
 
-    public void Setup(EnemySpawner enemySpawner)
+
+    public void Setup()
     {
-        this.enemySpawner = enemySpawner;
         ChangeState(WeaponState.SearchTarget);
     }
 
@@ -47,8 +45,8 @@ public class TowerWeapon : MonoBehaviour
     }
 
     private void RotateToTarget()
-    {   
-        if(gameObject.transform.position.x > attackTarget.position.x)
+    {
+        if (gameObject.transform.position.x > attackTarget.position.x)
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
@@ -56,7 +54,7 @@ public class TowerWeapon : MonoBehaviour
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = false;
         }
-        
+
     }
 
     private IEnumerator SearchTarget()
@@ -65,7 +63,7 @@ public class TowerWeapon : MonoBehaviour
         {
             attackTarget = FindClosestAttackTarget();
 
-            if( attackTarget != null)
+            if (attackTarget != null)
             {
                 ChangeState(WeaponState.TryAttackCannon);
             }
@@ -76,7 +74,7 @@ public class TowerWeapon : MonoBehaviour
     {
         while (true)
         {
-            if( IsPossibleToAttackTarget() == false)
+            if (IsPossibleToAttackTarget() == false)
             {
                 ChangeState(WeaponState.SearchTarget);
                 break;
@@ -89,26 +87,26 @@ public class TowerWeapon : MonoBehaviour
     private Transform FindClosestAttackTarget()
     {
         float ClosestDistSqr = Mathf.Infinity;
-        for ( int i = 0; i < enemySpawner.EnemyList.Count; ++i)
+        for (int i = 0; i < EnemyList.Instance.EEnemyList.Count; ++i)
         {
-            float distance = Vector3.Distance(enemySpawner.EnemyList[i].transform.position, transform.position);
-            if ( distance <= attackRange && distance <= ClosestDistSqr)
+            float distance = Vector3.Distance(EnemyList.Instance.EEnemyList[i].transform.position, transform.position);
+            if (distance <= attackRange && distance <= ClosestDistSqr)
             {
                 ClosestDistSqr = distance;
-                attackTarget = enemySpawner.EnemyList[i].transform;
+                attackTarget = EnemyList.Instance.EEnemyList[i].transform;
             }
         }
         return attackTarget;
     }
     private bool IsPossibleToAttackTarget()
     {
-        if( attackTarget == null)
+        if (attackTarget == null)
         {
             return false;
         }
 
-        float distance = Vector3.Distance(attackTarget.position, transform.position );
-        if( distance > attackRange)
+        float distance = Vector3.Distance(attackTarget.position, transform.position);
+        if (distance > attackRange)
         {
             attackTarget = null;
             return false;
