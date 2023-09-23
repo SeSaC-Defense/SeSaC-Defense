@@ -123,7 +123,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 4882040143350141973}
   Weapontype: 0
   projectilePrefab: {fileID: 8099262729314815186, guid: 85a5f4cab6d852a418f24e3fbeb743d2, type: 3}
-  attackRate: 0.8
+  attackRate: 1
   attackRange: 10
 --- !u!1 &714059651223466356
 GameObject:

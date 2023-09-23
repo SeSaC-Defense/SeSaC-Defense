@@ -3,16 +3,26 @@ using UnityEngine;
 public class Movement2D : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed = 0.0f; //유닛 이동속도
-    [SerializeField]
     private Vector3 moveDirection = Vector3.zero;
+    private UnitData unitData;
+    private int playerNumber = 1;
+    public int PlayerNumber => playerNumber;
 
+    private float moveSpeed = 10; //유닛 이동속도
     public float MoveSpeed => moveSpeed;
-
+    private void Start()
+    {
+        moveSpeed = unitData.UnitSpeed;
+    }
     private void Update()
     {
         //오브젝트의 포지션을 moveDirection으로 moveSpeed의 속도로 이동하게
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
+    }
+
+    public void DataSetting(UnitData unitData)
+    {
+        this.unitData = unitData;
     }
     public void MoveTo(Vector3 directtion) 
     {

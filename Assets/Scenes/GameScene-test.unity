@@ -2666,13 +2666,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd27a86fce5c0e045b10d785d3c81933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab:
+  towerPrefab1:
   - {fileID: 2493035652158777139, guid: 505763cde16cdda4aa37080cb6f46f85, type: 3}
   - {fileID: 496395576502924931, guid: 8adea07197f84b34d935f095b1368e1d, type: 3}
   - {fileID: 159701698454417245, guid: 6892d44fea810424c94c510f09373576, type: 3}
   - {fileID: 4829203111869012748, guid: fc2eb074af893cd43a6bedc728f15963, type: 3}
   - {fileID: 7042628732633396466, guid: 3e80e61b18a481c41a6201b79e53b5d9, type: 3}
-  enemySpawner: {fileID: 767722629}
+  towerPrefab2:
+  - {fileID: 2493035652158777139, guid: 16dffea44d73600498227fad5288fbbc, type: 3}
+  - {fileID: 496395576502924931, guid: a9eff54c3994ef0439dc56f7777b62f2, type: 3}
+  - {fileID: 159701698454417245, guid: 3e789e01523c5bd44a312ed0c7f613de, type: 3}
+  - {fileID: 4829203111869012748, guid: 3137a552a30af4a4a8849fd4a1274014, type: 3}
+  - {fileID: 7042628732633396466, guid: c55418fbfdbeee942b9dbe12ea227a1a, type: 3}
   wayPoints:
   - {fileID: 1287412609}
   - {fileID: 1319037486}
@@ -2739,6 +2744,7 @@ MonoBehaviour:
   - {fileID: 656548279}
   - {fileID: 1922124155}
   playerGold: {fileID: 178425077}
+  playerUnitList: {fileID: 178425080}
   towerBuildGold: 5
 --- !u!4 &326041111
 Transform:
@@ -7442,120 +7448,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1412913140049937419, guid: fec40eb1c2607504a9a8f70da187e886, type: 3}
   m_PrefabInstance: {fileID: 762897003}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &767722627
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 767722628}
-  - component: {fileID: 767722629}
-  m_Layer: 0
-  m_Name: EnemySpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &767722628
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 767722627}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &767722629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 767722627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e612115521695f409fc1c0c465f3771, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitProgressBar: {fileID: 1453675100}
-  enemyPrefab: {fileID: 7774966496029401620, guid: 129f83c6b781f9340afdd7e06c8a9ad0, type: 3}
-  spawnTime: 1
-  wayPoints:
-  - {fileID: 650694405}
-  - {fileID: 1240252398}
-  - {fileID: 496863953}
-  - {fileID: 1528603716}
-  - {fileID: 735609447}
-  - {fileID: 469367710}
-  - {fileID: 1565745795}
-  - {fileID: 47079242}
-  - {fileID: 1619657600}
-  - {fileID: 861840972}
-  - {fileID: 863864830}
-  - {fileID: 591690220}
-  - {fileID: 433072839}
-  - {fileID: 409098526}
-  - {fileID: 1761657059}
-  - {fileID: 1402812010}
-  - {fileID: 2058318725}
-  - {fileID: 1068095305}
-  - {fileID: 1279181604}
-  - {fileID: 701499770}
-  - {fileID: 1216456794}
-  - {fileID: 292311318}
-  - {fileID: 917136421}
-  - {fileID: 1878116409}
-  - {fileID: 348766127}
-  - {fileID: 619733559}
-  - {fileID: 475573058}
-  - {fileID: 1287057066}
-  - {fileID: 1334833351}
-  - {fileID: 390462135}
-  - {fileID: 548278797}
-  - {fileID: 1050129844}
-  - {fileID: 1287817731}
-  - {fileID: 1369233424}
-  - {fileID: 1545095163}
-  - {fileID: 539644345}
-  - {fileID: 1289368358}
-  - {fileID: 1067865596}
-  - {fileID: 216929292}
-  - {fileID: 1944317922}
-  - {fileID: 503176789}
-  - {fileID: 463801303}
-  - {fileID: 789188370}
-  - {fileID: 1583747801}
-  - {fileID: 1763567727}
-  - {fileID: 1674246717}
-  - {fileID: 2059496351}
-  - {fileID: 496327487}
-  - {fileID: 440538105}
-  - {fileID: 342994023}
-  - {fileID: 2134048771}
-  - {fileID: 1657582486}
-  - {fileID: 1715277825}
-  - {fileID: 569989657}
-  - {fileID: 1867404676}
-  - {fileID: 144808585}
-  - {fileID: 57183611}
-  - {fileID: 1205941002}
-  - {fileID: 335453898}
-  - {fileID: 1265112411}
-  - {fileID: 1452428261}
-  - {fileID: 959298780}
-  - {fileID: 103537843}
-  - {fileID: 2008898384}
-  player: {fileID: 178425078}
-  playerGold: {fileID: 178425077}
 --- !u!114 &771501211 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2359017231526823602, guid: 7383ca11e0a439f499e47bdaec6f4b41, type: 3}
@@ -13309,110 +13201,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4659375129537130990, guid: 851469a49136e1e45bfa309430435200, type: 3}
   m_PrefabInstance: {fileID: 1369233423}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1379646876
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1379646878}
-  - component: {fileID: 1379646877}
-  m_Layer: 0
-  m_Name: AI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1379646877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1379646876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee850efb98f3f764db7a870a00d917b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerGold: {fileID: 178425077}
-  towerSpawner: {fileID: 326041110}
-  tile:
-  - {fileID: 716942330}
-  - {fileID: 190699849}
-  - {fileID: 448435879}
-  - {fileID: 1907026809}
-  - {fileID: 669046015}
-  - {fileID: 6431364}
-  - {fileID: 737673332}
-  - {fileID: 1692819278}
-  - {fileID: 1094505267}
-  - {fileID: 96853658}
-  - {fileID: 1866728097}
-  - {fileID: 920810420}
-  - {fileID: 91764916}
-  - {fileID: 762897004}
-  - {fileID: 343515352}
-  - {fileID: 1803229790}
-  - {fileID: 722499329}
-  - {fileID: 1748639820}
-  - {fileID: 988324544}
-  - {fileID: 1639195645}
-  - {fileID: 1966529520}
-  - {fileID: 1026422205}
-  - {fileID: 2081747584}
-  - {fileID: 315672790}
-  - {fileID: 1887902349}
-  - {fileID: 247068722}
-  - {fileID: 45978355}
-  - {fileID: 33319201}
-  - {fileID: 689634138}
-  - {fileID: 1444631159}
-  - {fileID: 1132992853}
-  - {fileID: 449200388}
-  - {fileID: 1171739954}
-  - {fileID: 1177187735}
-  - {fileID: 1941263428}
-  - {fileID: 995922507}
-  - {fileID: 2094003765}
-  - {fileID: 134718903}
-  - {fileID: 1738928259}
-  - {fileID: 338325449}
-  - {fileID: 206511741}
-  - {fileID: 317695045}
-  - {fileID: 2146533823}
-  - {fileID: 412093873}
-  - {fileID: 1984765540}
-  - {fileID: 16622030}
-  - {fileID: 311337238}
-  - {fileID: 1590038197}
-  - {fileID: 923285961}
-  - {fileID: 1140466555}
-  - {fileID: 2076633178}
-  - {fileID: 1473760780}
-  - {fileID: 1449417818}
-  - {fileID: 415500300}
-  - {fileID: 779110826}
-  - {fileID: 425921077}
-  enemySpawner: {fileID: 767722629}
---- !u!4 &1379646878
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1379646876}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1381643781
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28088,8 +27876,6 @@ SceneRoots:
   - {fileID: 800466843}
   - {fileID: 1317793344}
   - {fileID: 326041111}
-  - {fileID: 767722628}
   - {fileID: 1213340077}
   - {fileID: 548754575}
   - {fileID: 178425079}
-  - {fileID: 1379646878}

@@ -6,6 +6,9 @@ public enum WeaponState { SearchTarget = 0, TryAttackCannon }
 
 public class TowerWeapon : MonoBehaviour
 {
+    private int playerNumber = 1;
+    public int PlayerNumber => playerNumber;
+
     [Header("Commons")]
     [SerializeField]
     private Transform spawnPoint;
@@ -22,12 +25,12 @@ public class TowerWeapon : MonoBehaviour
 
     private WeaponState weaponState     = WeaponState.SearchTarget;
     private Transform attackTarget    = null;
-    private EnemySpawner enemySpawner;
+    private PlayerUnitList playerUnitList;
     
 
-    public void Setup(EnemySpawner enemySpawner)
+    public void Setup(PlayerUnitList playerUnitList)
     {
-        this.enemySpawner = enemySpawner;
+        this.playerUnitList = playerUnitList;
         ChangeState(WeaponState.SearchTarget);
     }
 
@@ -89,13 +92,13 @@ public class TowerWeapon : MonoBehaviour
     private Transform FindClosestAttackTarget()
     {
         float ClosestDistSqr = Mathf.Infinity;
-        for ( int i = 0; i < enemySpawner.EnemyList.Count; ++i)
+        for ( int i = 0; i < playerUnitList.UnitList.Count; ++i)
         {
-            float distance = Vector3.Distance(enemySpawner.EnemyList[i].transform.position, transform.position);
+            float distance = Vector3.Distance(playerUnitList.UnitList[i].transform.position, transform.position);
             if ( distance <= attackRange && distance <= ClosestDistSqr)
             {
                 ClosestDistSqr = distance;
-                attackTarget = enemySpawner.EnemyList[i].transform;
+                attackTarget = playerUnitList.UnitList[i].transform;
             }
         }
         return attackTarget;
