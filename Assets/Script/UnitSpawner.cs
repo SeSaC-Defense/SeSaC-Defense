@@ -19,7 +19,7 @@ public class UnitSpawner : MonoBehaviour
     private PlayerUnitList playerUnitList; //생성하는 유닛을 list로 보관
     private GameObject spawnUnit; //생성되는 유닛
     private Transform spawnPoint; //스폰될 위치
-    private Transform[] waypoints; //이동하게될 waypoint
+    private Transform[] wayPoints; //이동하게될 waypoint
 
     public bool InOperation
     {
@@ -36,10 +36,10 @@ public class UnitSpawner : MonoBehaviour
         WayPointScan(); //waypoint중 가장 가까운것 탐색
     }
 
-    public void Setup(Transform[] waypoints, PlayerUnitList playerUnitList) //배럭 설치와 동시에 설정되는 정보들
+    public void Setup(Transform[] wayPoints, PlayerUnitList playerUnitList) //배럭 설치와 동시에 설정되는 정보들
     {
         this.playerUnitList = playerUnitList;
-        this.waypoints = waypoints;
+        this.wayPoints = wayPoints;
     }
 
     public void WayPointScan() //waypoint중 가장 가까운것 탐색
@@ -73,7 +73,7 @@ public class UnitSpawner : MonoBehaviour
         {
             GameObject clone = Instantiate(spawnUnit); //유닛 생성
             Unit unit = clone.GetComponent<Unit>();
-            unit.SetUp(waypoints, spawnPoint, playerUnitList, unitData); // 생성 유닛 정보처리 함수
+            unit.SetUp(wayPoints, spawnPoint, playerUnitList, unitData); // 생성 유닛 정보처리 함수
             clone.GetComponent<UnitHP>().SetUp(unitData); //유닛의 HP 정보처리 함수
             playerUnitList.UnitList.Add(unit); //생성되는 유닛을 list에 담아준다
             yield return new WaitForSeconds(spawnTime); //spawnTime 만큼 기다린 후 다시 sapwnUnit함수 시작
