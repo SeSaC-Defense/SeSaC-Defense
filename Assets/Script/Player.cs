@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private int playerNumber = 1;
+    public int PlayerNumber => playerNumber;
+
     [SerializeField]
     private UICount hpText;
     private float maxHP = 10;

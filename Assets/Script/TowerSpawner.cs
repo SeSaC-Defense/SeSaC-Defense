@@ -15,16 +15,35 @@ public enum TowerType
 
 public class TowerSpawner : Singleton<TowerSpawner>
 {
+    private int playerNumber = 1;
+    public int PlayerNumber => playerNumber;
+
     [SerializeField]
-    private GameObject[] towerPrefab;
+    private GameObject[] towerPrefab1;
     [SerializeField]
-    private EnemySpawner enemySpawner;
+    private GameObject[] towerPrefab2;
     [SerializeField]
     private Transform[] wayPoints;
     [SerializeField]
     private PlayerGold playerGold;
     [SerializeField]
+    private PlayerUnitList playerUnitList;
+    [SerializeField]
     private int towerBuildGold = 5;
+    
+    private GameObject[] towerPrefab;
+
+    private void Start()
+    {
+        if(playerNumber == 1)
+        {
+            towerPrefab = towerPrefab1;
+        }
+        else
+        {
+            towerPrefab = towerPrefab2;
+        }
+    }
 
     public float TowerBuildGold
     {
@@ -51,10 +70,10 @@ public class TowerSpawner : Singleton<TowerSpawner>
         GameObject clone = Instantiate(towerPrefab[ix], tileTransform);
         if (ix == 0)
         {
-            clone.GetComponent<UnitSpawner>().Setup(wayPoints);
+            clone.GetComponent<UnitSpawner>().Setup(wayPoints, playerUnitList);
             return;
         }
-        clone.GetComponent<TowerWeapon>().Setup(enemySpawner);
+        clone.GetComponent<TowerWeapon>().Setup(playerUnitList);
     }
 
     public void SetTowerType(int towerTypeInInt)

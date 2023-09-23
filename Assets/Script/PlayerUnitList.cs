@@ -1,10 +1,15 @@
 using Pattern;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using UnityEngine;
 
-public class PlayerUnitList : Singleton<PlayerUnitList>
+public class PlayerUnitList : MonoBehaviour
 {
+    private int playerNumber = 1;
+    public int PlayerNumber => playerNumber;
+
     [SerializeField]
     private UnitProgressBar unitProgressBar;
 
@@ -20,7 +25,7 @@ public class PlayerUnitList : Singleton<PlayerUnitList>
     private void Update()
     {
         float farthestUnitPositionX = -100f;
-        
+
         foreach (var unit in unitList)
         {
             if (unit.transform.position.x > farthestUnitPositionX)
@@ -30,5 +35,11 @@ public class PlayerUnitList : Singleton<PlayerUnitList>
         }
 
         unitProgressBar.PlayerUnitPositionX = farthestUnitPositionX;
+    }
+
+    public void DestroyUnit(Unit unit)
+    {
+        unitList.Remove(unit);
+        Destroy(unit.gameObject);
     }
 }

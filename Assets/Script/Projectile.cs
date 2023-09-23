@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    private int playerNumber = 1;
+    public int PlayerNumber => playerNumber;
+
     private Movement2D movement2D;
     private Transform target;
 
@@ -32,7 +35,7 @@ public class Projectile : MonoBehaviour
         if (!collision.CompareTag("Enemy")) return;
         if (collision.transform != target)  return;
 
-        collision.GetComponent<EnemyHP>().TakeDamage(1);
+        collision.GetComponent<UnitHP>().TakeDamage(1);
         Destroy(gameObject);
     }
 }

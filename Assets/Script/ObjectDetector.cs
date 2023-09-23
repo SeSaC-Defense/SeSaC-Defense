@@ -5,7 +5,10 @@ using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class ObjectDetector : Singleton<ObjectDetector>
-{    
+{
+    private int playerNumber = 1;
+    public int PlayerNumber => playerNumber;
+
     private Camera mainCamera;
     public Transform HitTransform { get; private set; }
 
@@ -21,7 +24,6 @@ public class ObjectDetector : Singleton<ObjectDetector>
         if (CanHit(out hit))
         {
             HitTransform = hit.transform;
-            Debug.Log(hit.transform);
             switch ((hit.transform.tag, UIStateEventHandler.Instance.CurrentState))
             {
                 case ("Tile", UIStateType.ConstructionChecking):

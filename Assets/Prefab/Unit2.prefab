@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4645845534507477583}
   - component: {fileID: 748787478555540240}
   - component: {fileID: 2106809894214389973}
+  - component: {fileID: 6180536734215282878}
   m_Layer: 0
   m_Name: Unit2
   m_TagString: Untagged
@@ -134,7 +135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c43eeb99c70db9e4886daf2ea0b95100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &2106809894214389973
 MonoBehaviour:
@@ -148,3 +148,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd159ac9f0248643b6cba29b171fe41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitdata: {fileID: 11400000, guid: 3272ec4bd25402447850f51b361b624d, type: 2}
+  playerUnitList: {fileID: 0}
+--- !u!114 &6180536734215282878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6982864940095610916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d29a484aa8d3844e810645be176b86c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 2
