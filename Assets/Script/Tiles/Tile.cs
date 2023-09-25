@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public bool HasBuilding
-    {
-        set; get;
-    }
+    public bool HasBuilding;
 
     private void Awake()
     {

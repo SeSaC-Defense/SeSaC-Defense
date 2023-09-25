@@ -13,14 +13,13 @@ public class Player : NetworkBehaviour
 
     private Camera cameraPlayerBase;
     private Camera cameraEnemyBase;
-    private int playerNo;
     private ulong enemyId;
     private int maxHP = 10;
     private int currentHP;
     
     public int MaxHP => maxHP;
     public int CurrentHP => currentHP;
-    public int PlayerNo => playerNo;
+    public int PlayerNo => IsOwnedByServer ? 0 : 1;
     public ulong EnemyId => enemyId;
 
     private void Awake()
@@ -28,16 +27,15 @@ public class Player : NetworkBehaviour
         currentHP = maxHP;
     }
 
-    public void Setup(int playerNo, ulong enemyId)
+    public void Setup(ulong enemyId)
     {
-        this.playerNo = playerNo;
         this.enemyId = enemyId;
-        SetCamera();
     }
 
-    private void SetCamera()
+    [ClientRpc]
+    public void SetCameraClientRpc()
     {
-        if (playerNo == 0)
+        if (IsHost)
         {
             cameraPlayerBase = GameObject.Find("CameraPlayer0").GetComponent<Camera>();
             cameraEnemyBase = GameObject.Find("CameraPlayer1").GetComponent<Camera>();

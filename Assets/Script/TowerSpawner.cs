@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 public enum TowerType
@@ -14,7 +15,7 @@ public enum TowerType
     Magician4
 }
 
-public class TowerSpawner : NetworkSingleton<TowerSpawner>
+public class TowerSpawner : NetworkBehaviour
 {
     [SerializeField]
     private GameObject[] towerPrefabs;
@@ -33,27 +34,34 @@ public class TowerSpawner : NetworkSingleton<TowerSpawner>
 
     public TowerType TowerChosen { get; set; }
 
-    
+    private void Start()
+    {
+        wayPoints = GameObject.Find("TileMapWayPointPlayer").GetComponentsInChildren<Transform>();
+    }
 
     public void SpawnTower(Transform tileTransform)
     {
-        int ix = (int)TowerChosen;
         Tile tile = tileTransform.GetComponent<Tile>();
         if (playerGold.CurrentGold < towerBuildGold)
-        {
             return;
-        }
-        if (tile.HasBuilding == true) return;
+
+        if (tile.HasBuilding == true)
+            return;
 
         playerGold.CurrentGold -= towerBuildGold;
 
-        tile.HasBuilding = true;
+        ulong tileObjectId = tileTransform.GetComponent<NetworkTransform>().NetworkObjectId;
+
+        SetTileHasBuildingServerRpc(tileObjectId);
+
+        int ix = (int)TowerChosen;
+
         if (ix == 0)
         {
-            SpawnBarrack(NetworkManager.Singleton.LocalClientId, tileTransform);
+            SpawnBarrackServerRpc(NetworkManager.Singleton.LocalClientId, tileObjectId);
             return;
         }
-        SpawnTower(NetworkManager.Singleton.LocalClientId, tileTransform);
+        SpawnTowerServerRpc(NetworkManager.Singleton.LocalClientId, tileObjectId, ix);
     }
 
     public void SetTowerType(int towerTypeInInt)
@@ -61,20 +69,35 @@ public class TowerSpawner : NetworkSingleton<TowerSpawner>
         TowerChosen = (TowerType)towerTypeInInt;
     }
 
-    private void SpawnBarrack(ulong clientId, Transform tileTransform)
+    [ServerRpc]
+    private void SetTileHasBuildingServerRpc(ulong tileObjectId)
     {
-        GameObject clone = Instantiate(towerPrefabs[0], tileTransform);
-
-        clone.GetComponent<UnitSpawner>().Setup(clientId, clientId == NetworkManager.ServerClientId ? 0 : 1);
+        Transform tileTransform = NetworkManager.SpawnManager.SpawnedObjects[tileObjectId].transform;
+        Tile tile = tileTransform.GetComponent<Tile>();
+        tile.HasBuilding = true;
     }
 
-    private void SpawnTower(ulong clientId, Transform tileTransform)
+
+
+    [ServerRpc]
+    private void SpawnBarrackServerRpc(ulong clientId, ulong tileObjectId)
     {
-        int ix = (int)TowerChosen;
+        Transform tileTransform = NetworkManager.SpawnManager.SpawnedObjects[tileObjectId].transform;
+        GameObject clone = Instantiate(towerPrefabs[0], tileTransform);
 
-        GameObject clone = Instantiate(towerPrefabs[ix], tileTransform);
+        NetworkObject networkObject = clone.GetComponent<NetworkObject>();
+        networkObject.SpawnWithOwnership(clientId);
+    }
 
-        clone.GetComponent<TowerWeapon>().Setup(clientId, clientId == NetworkManager.ServerClientId ? 0 : 1);
+    [ServerRpc]
+    private void SpawnTowerServerRpc(ulong clientId, ulong tileObjectId, int prefabIx)
+    {
+        Transform tileTransform = NetworkManager.SpawnManager.SpawnedObjects[tileObjectId].transform;
+        GameObject clone = Instantiate(towerPrefabs[prefabIx], tileTransform);
 
+        clone.GetComponent<TowerWeapon>().Setup();
+
+        NetworkObject networkObject = clone.GetComponent<NetworkObject>();
+        networkObject.SpawnWithOwnership(clientId);
     }
 }

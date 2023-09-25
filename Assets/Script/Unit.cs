@@ -8,46 +8,35 @@ public class Unit : NetworkBehaviour
     [SerializeField]
     private UnitTemplate template;
 
-    private int playerNo = -1;
     private int currentWaypointIndex = -1;
     private Movement2D movement2D;
 
     public float SpawnInterval => template.spawnInterval;
-    private int Direction => playerNo == 0 ? 1 : -1;
-    private float UnitMaxHealth => template.unitData[playerNo].maxHealth;
+    public int PlayerNo => IsOwnedByServer ? 0 : 1;
+    private int Direction => PlayerNo == 0 ? 1 : -1;
+    private float UnitMaxHealth => template.unitData[PlayerNo].maxHealth;
     private float UnitCurrentHealth { get; set; }
     private Transform[] Waypoints => TileMapWaypoint.Instance.Waypoints;
 
-    public void Setup(int playerNo, Transform barrackTransform)
+    [ClientRpc]
+    public void SetupClientRpc()
     {
-        this.playerNo = playerNo;
         this.movement2D = GetComponent<Movement2D>();
         this.UnitCurrentHealth = UnitMaxHealth;
-        this.transform.position = barrackTransform.position;
 
         this.currentWaypointIndex = FindNearestWaypointIndex();
         
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+        int playerNo = IsOwnedByServer ? 0 : 1;
         spriteRenderer.sprite = template.unitData[playerNo].sprite;
 
         Transform nearestWaypointTransform = FindNearestWaypointTransform();
         transform.position = GetNearestSpawnPosition(nearestWaypointTransform);
         
-        SpawnUnitServerRpc();
+        PlayerUnitList.Instance.AddUnitClientRpc(this);
 
         StartCoroutine("OnMove");
-    }
-
-    [ServerRpc]
-    private void SpawnUnitServerRpc()
-    {
-        SpawnUnitClientRpc();
-    }
-
-    [ClientRpc]
-    private void SpawnUnitClientRpc()
-    {
-        PlayerUnitList.Instance.AddUnit(this);
     }
 
     private Vector3 GetNearestSpawnPosition(Transform nearestWaypoint)
@@ -123,7 +112,7 @@ public class Unit : NetworkBehaviour
 
     private void NextMoveTo()
     {
-        int waypointEndIndex = playerNo == 0 ? Waypoints.Length - 1 : 0;
+        int waypointEndIndex = PlayerNo == 0 ? Waypoints.Length - 1 : 0;
         
         if ((waypointEndIndex - currentWaypointIndex) * Direction > 0)
         {
@@ -189,7 +178,7 @@ public class Unit : NetworkBehaviour
     private void KillServerRpc()
     {
         NetworkObject networkObject = GetComponent<NetworkObject>();
-        PlayerUnitList.Instance.RemoveUnit(this);
+        PlayerUnitList.Instance.RemoveUnitClientRpc(this);
         networkObject.Despawn(true);
     }
 }

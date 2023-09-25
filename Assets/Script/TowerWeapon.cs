@@ -22,25 +22,15 @@ public class TowerWeapon : NetworkBehaviour
     [SerializeField]
     private float attackRange = 5f;
 
-    private int playerNo;
     private WeaponState weaponState     = WeaponState.SearchTarget;
     private Transform attackTarget    = null;
-    private IReadOnlyList<Unit> EnemyUnitList => PlayerUnitList.Instance.GetEnemyUnitList(playerNo);
+    
+    public int PlayerNo => IsOwnedByServer ? 0 : 1;
+    private IReadOnlyList<Unit> EnemyUnitList => PlayerUnitList.Instance.GetEnemyUnitList(PlayerNo);
 
-    public void Setup(ulong clientId, int playerNo)
+    public void Setup()
     {
-        this.playerNo = playerNo;
-
-        SpawnServerRpc(clientId);
-
         ChangeState(WeaponState.SearchTarget);
-    }
-
-    [ServerRpc]
-    private void SpawnServerRpc(ulong clientId)
-    {
-        NetworkObject networkObject = GetComponent<NetworkObject>();
-        networkObject.SpawnWithOwnership(clientId);
     }
 
     private void ChangeState(WeaponState NewState)
@@ -93,7 +83,10 @@ public class TowerWeapon : NetworkBehaviour
                 ChangeState(WeaponState.SearchTarget);
                 break;
             }
-            SpawnProjectile();
+
+            ulong playerId = NetworkManager.Singleton.LocalClientId;
+            SpawnProjectileServerRpc(playerId, spawnPoint.position, attackTarget.position);
+
             yield return new WaitForSeconds(attackRate);
         }
     }
@@ -128,11 +121,14 @@ public class TowerWeapon : NetworkBehaviour
         return true;
     }
 
-    private void SpawnProjectile()
+    [ServerRpc]
+    private void SpawnProjectileServerRpc(ulong clientId, Vector3 spawnPosition, Vector3 targetPosition)
     {
-        ulong clientId = NetworkManager.Singleton.LocalClientId;
-        GameObject clone = Instantiate(projectilePrefab, spawnPoint);
+        GameObject clone = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
 
-        clone.GetComponent<Projectile>().Setup(clientId, playerNo, attackTarget);
+        clone.GetComponent<Projectile>().Setup(targetPosition);
+        
+        NetworkObject networkObject = clone.GetComponent<NetworkObject>();
+        networkObject.SpawnWithOwnership(clientId);
     }
 }

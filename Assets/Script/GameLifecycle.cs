@@ -18,8 +18,6 @@ public class GameLifecycle : NetworkBehaviour
 
     public void OnClientConnected(ulong clientId)
     {
-        Debug.Log(NetworkManager.ConnectedClientsList.Count);
-
         if (IsHost
             && NetworkManager.ConnectedClientsList.Count == 2)
         {
@@ -52,29 +50,42 @@ public class GameLifecycle : NetworkBehaviour
     {
         for (int i = 5; i > 0; i--)
         {
-            Debug.Log($"Game starting in {i}...");
+            CountDownClientRpc(i);
             yield return new WaitForSeconds(1f);
         }
 
         IReadOnlyList<NetworkClient> list = NetworkManager.ConnectedClientsList;
-
 
         foreach (var client in list)
         {
             GameObject player = Instantiate(playerPrefab);
             ulong clientId = client.ClientId;
 
-            if (clientId == NetworkManager.ServerClientId)
-            {
-                player.GetComponent<Player>().Setup(0, GetEnemyId(clientId));
-            }
-            else
-            {
-                player.GetComponent<Player>().Setup(1, GetEnemyId(clientId));
-            }
+            player.GetComponent<Player>().Setup(GetEnemyId(clientId));
 
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
         }
+
+        yield return new WaitForSeconds(1f);
+
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            client.PlayerObject.GetComponent<Player>().SetCameraClientRpc();
+        }
+
+        ShowGameUIClientRpc();
+    }
+
+    [ClientRpc]
+    private void CountDownClientRpc(int count)
+    {
+        Debug.Log($"Game starting in {count}...");
+    }
+
+    [ClientRpc]
+    private void ShowGameUIClientRpc()
+    {
+        GameObject.Find("Canvas").transform.Find("CanvasGame").gameObject.SetActive(true);
     }
 
     private ulong GetEnemyId(ulong clientId)

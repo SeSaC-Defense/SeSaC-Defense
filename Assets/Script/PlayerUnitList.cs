@@ -27,15 +27,15 @@ public class PlayerUnitList : Singleton<PlayerUnitList>
 
     private void Update()
     {
-        float farthestUnitPositionX = -100f;
+        //float farthestUnitPositionX = -100f;
         
-        foreach (var unit in unitLists[0])
-        {
-            if (unit.transform.position.x > farthestUnitPositionX)
-            {
-                farthestUnitPositionX = unit.transform.position.x;
-            }
-        }
+        //foreach (var unit in unitLists[0])
+        //{
+        //    if (unit.transform.position.x > farthestUnitPositionX)
+        //    {
+        //        farthestUnitPositionX = unit.transform.position.x;
+        //    }
+        //}
 
         //unitProgressBar.PlayerUnitPositionX = farthestUnitPositionX;
     }
@@ -45,8 +45,8 @@ public class PlayerUnitList : Singleton<PlayerUnitList>
         return unitLists[playerNo == 0 ? 1 : 0];
     }
 
-    // TODO: call this method when a unit is spawned
-    public void AddUnit(Unit unit)
+    [ClientRpc]
+    public void AddUnitClientRpc(Unit unit)
     {
         NetworkObject networkObject = unit.GetComponent<NetworkObject>();
         if (networkObject.IsOwnedByServer)
@@ -59,7 +59,8 @@ public class PlayerUnitList : Singleton<PlayerUnitList>
         }
     }
 
-    public void RemoveUnit(Unit unit)
+    [ClientRpc]
+    public void RemoveUnitClientRpc(Unit unit)
     {
         NetworkObject networkObject = unit.GetComponent<NetworkObject>();
         if (networkObject.IsOwnedByServer)

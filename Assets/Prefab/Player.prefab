@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2525635849356155494}
   - component: {fileID: 7295145295715682062}
   - component: {fileID: 8814814550152329383}
+  - component: {fileID: -4166562596380295787}
   - component: {fileID: 7771453490974113574}
   m_Layer: 0
   m_Name: Player
@@ -59,6 +60,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGold: 10
+--- !u!114 &-4166562596380295787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378872937697320346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd27a86fce5c0e045b10d785d3c81933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerPrefabs:
+  - {fileID: 2493035652158777139, guid: 505763cde16cdda4aa37080cb6f46f85, type: 3}
+  - {fileID: 496395576502924931, guid: 8adea07197f84b34d935f095b1368e1d, type: 3}
+  - {fileID: 159701698454417245, guid: 6892d44fea810424c94c510f09373576, type: 3}
+  - {fileID: 4829203111869012748, guid: fc2eb074af893cd43a6bedc728f15963, type: 3}
+  - {fileID: 7042628732633396466, guid: 3e80e61b18a481c41a6201b79e53b5d9, type: 3}
+  wayPoints: []
+  towerBuildGold: 5
 --- !u!114 &7771453490974113574
 MonoBehaviour:
   m_ObjectHideFlags: 0

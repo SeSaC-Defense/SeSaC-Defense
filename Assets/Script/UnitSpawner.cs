@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,7 +7,6 @@ public class UnitSpawner : NetworkBehaviour
     [SerializeField]
     private GameObject[] unitPrefabs;
 
-    private int playerNo = -1;
     private int unitTypeIx = -1;
     private float unitSpawnInterval = 1;
 
@@ -20,19 +18,6 @@ public class UnitSpawner : NetworkBehaviour
     private void Awake()
     {
         IsOperating = false;
-    }
-
-    public void Setup(ulong clientId, int playerNo)
-    {
-        this.playerNo = playerNo;
-        SpawnServerRpc(clientId);
-    }
-
-    [ServerRpc]
-    private void SpawnServerRpc(ulong clientId)
-    {
-        NetworkObject networkObject = GetComponent<NetworkObject>();
-        networkObject.SpawnWithOwnership(clientId);
     }
 
     public void UnitChoice(int unitTypeIx)
@@ -47,22 +32,22 @@ public class UnitSpawner : NetworkBehaviour
     {
         while (true)
         {
-            SpawnUnitServerRpc(NetworkManager.Singleton.LocalClientId, unitTypeIx);
+            SpawnUnitServerRpc(NetworkManager.Singleton.LocalClientId, unitTypeIx, transform.position);
 
             yield return new WaitForSeconds(unitSpawnInterval);
         }
     }
 
     [ServerRpc]
-    private void SpawnUnitServerRpc(ulong clientId, int unitTypeIx)
+    private void SpawnUnitServerRpc(ulong clientId, int unitTypeIx, Vector3 spawnPosition)
     {
         GameObject unitPrefab = unitPrefabs[unitTypeIx];
-        GameObject clone = Instantiate(unitPrefab);
+        GameObject clone = Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
 
         Unit unit = clone.GetComponent<Unit>();
 
         clone.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
 
-        unit.Setup(playerNo, transform);
+        unit.SetupClientRpc();
     }
 }

@@ -24,10 +24,10 @@ public class Movement2D : NetworkBehaviour
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
     }
 
-    public void MoveTo(Vector3 directtion) 
+    public void MoveTo(Vector3 direction) 
     {
         //변수값을 이동할 위치에 넣어줌
-        moveDirection = directtion;
+        moveDirection = direction;
         if (moveDirection.x < 0) //이동할 방향이 좌측이라면 좌측을 바라보고
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = true;

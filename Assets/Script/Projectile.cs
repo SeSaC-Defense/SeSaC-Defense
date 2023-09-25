@@ -8,25 +8,14 @@ public class Projectile : NetworkBehaviour
     [SerializeField]
     private float damage;
 
-    private int playerNo;
     private Movement2D movement2D;
 
-    public void Setup(ulong clientId, int playerNo, Transform target)
+    public void Setup(Vector3 targetPosition)
     {
-        this.playerNo = playerNo;
         this.movement2D = GetComponent<Movement2D>();
 
-        SpawnServerRpc(clientId);
-
-        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 direction = (targetPosition - transform.position).normalized;
         movement2D.MoveTo(direction);
-    }
-
-    [ServerRpc]
-    private void SpawnServerRpc(ulong clientId)
-    {
-        NetworkObject networkObject = GetComponent<NetworkObject>();
-        networkObject.SpawnWithOwnership(clientId);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

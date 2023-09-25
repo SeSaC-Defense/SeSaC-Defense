@@ -1,6 +1,7 @@
 using Pattern;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 public enum ButtonGroupType
@@ -30,6 +31,8 @@ public class ButtonGroupToggle : Singleton<ButtonGroupToggle>
     {
         UIStateEventHandler.OnStateChanged += OnUIStateChanged;
         Player.OnPlayerCameraChange += OnPlayerCameraChanged;
+
+        currentCamera = Camera.current;
     }
 
     private void OnUIStateChanged(UIStateType state)
@@ -48,8 +51,10 @@ public class ButtonGroupToggle : Singleton<ButtonGroupToggle>
             case UIStateType.ConstructionConfirming:
                 currentButtonGroup = buttonGroupConstructionConfirming;
 
+                TowerSpawner towerSpawner = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TowerSpawner>();
                 Sprite[] towerImages = buttonGroupConstructionConfirming.GetComponent<ButtonGroupConstructionConfirming>().TowerImages;
-                Sprite sprite = towerImages[(int)TowerSpawner.Instance.TowerChosen];
+                
+                Sprite sprite = towerImages[(int)towerSpawner.TowerChosen];
                 buttonGroupConstructionConfirming.transform.Find("Image").GetComponent<Image>().sprite = sprite;
                 break;
             default:
