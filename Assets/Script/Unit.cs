@@ -1,40 +1,81 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public class Unit : NetworkBehaviour
 {
-    private int wayPointCount;      //이동 경로 개수
-    private Transform[] wayPoints;      //이동 경로 정보
-    private int currentIndex = 0;   //현재 목표지점 인덱스
-    private Movement2D movement2D;         //오브젝트 이동 제어
+    [SerializeField]
+    private UnitTemplate template;
 
-    public void SetUp(Transform[] wayPoints, Transform spawnPoint)
+    private int playerNo = -1;
+    private int currentWaypointIndex = -1;
+    private Movement2D movement2D;
+
+    public float SpawnInterval => template.spawnInterval;
+    private int Direction => playerNo == 0 ? 1 : -1;
+    private float UnitMaxHealth => template.unitData[playerNo].maxHealth;
+    private float UnitCurrentHealth { get; set; }
+    private Transform[] Waypoints => TileMapWaypoint.Instance.Waypoints;
+
+    public void Setup(int playerNo, Transform barrackTransform)
     {
-        movement2D = GetComponent<Movement2D>();
-        this.wayPoints = wayPoints;
-        wayPointCount = wayPoints.Length;         //유닛 이동 경로 waypoint 정보 설정
+        this.playerNo = playerNo;
+        this.movement2D = GetComponent<Movement2D>();
+        this.UnitCurrentHealth = UnitMaxHealth;
+        this.transform.position = barrackTransform.position;
 
-        for (int i = 0; i < wayPointCount; i++)
+        this.currentWaypointIndex = FindNearestWaypointIndex();
+        
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = template.unitData[playerNo].sprite;
+
+        Transform nearestWaypointTransform = FindNearestWaypointTransform();
+        transform.position = GetNearestSpawnPosition(nearestWaypointTransform);
+        
+        SpawnUnitServerRpc();
+
+        StartCoroutine("OnMove");
+    }
+
+    [ServerRpc]
+    private void SpawnUnitServerRpc()
+    {
+        SpawnUnitClientRpc();
+    }
+
+    [ClientRpc]
+    private void SpawnUnitClientRpc()
+    {
+        PlayerUnitList.Instance.AddUnit(this);
+    }
+
+    private Vector3 GetNearestSpawnPosition(Transform nearestWaypoint)
+    {
+        Vector3 spawnPosition = nearestWaypoint.position;
+        float deltaX = Mathf.Abs(nearestWaypoint.position.x - transform.position.x);
+        float deltaY = Mathf.Abs(nearestWaypoint.position.y - transform.position.y);
+
+        if (deltaX > deltaY)
         {
-            if (wayPoints[i] == spawnPoint)
-            {
-                currentIndex = i;
-                break;                              // 일치하는 인덱스를 찾으면 루프 종료
-            }
+            spawnPosition.y = transform.position.y;
+        }
+        else
+        {
+            spawnPosition.x = transform.position.x;
         }
 
-        transform.position = spawnPoint.position;    //유닛의 첫 위치를 지정하는 
-
-        StartCoroutine("OnMove");                    //적 이동/목표지점 설정 코루틴 시작
+        return spawnPosition;
     }
 
     private IEnumerator OnMove()
     {
         while (true)
         {
-            if (Vector3.Distance(transform.position, wayPoints[currentIndex].position) < 0.02f * movement2D.MoveSpeed)
+            Debug.Log(currentWaypointIndex);
+            float distance = Vector3.Distance(transform.position, Waypoints[currentWaypointIndex].position);
+            
+            if (distance < 0.02f * movement2D.MoveSpeed)
             {
                 NextMoveTo();
             }
@@ -42,19 +83,113 @@ public class Unit : MonoBehaviour
         }
     }
 
+    private int FindNearestWaypointIndex()
+    {
+        int nearestWaypointIndex = -1;
+        float closestDistance = Mathf.Infinity;
+
+        for (int i = 0; i < Waypoints.Length; i++)
+        {
+            float distance = Vector3.Distance(transform.position, Waypoints[i].position);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                nearestWaypointIndex = i;
+            }
+        }
+
+        return nearestWaypointIndex;
+    }
+
+    private Transform FindNearestWaypointTransform()
+    {
+        Transform nearestWaypointTransform = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (Transform waypointTransform in Waypoints)
+        {
+            float distance = Vector3.Distance(transform.position, waypointTransform.position);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                nearestWaypointTransform = waypointTransform;
+            }
+        }
+
+        return nearestWaypointTransform;
+    }
+
     private void NextMoveTo()
     {
-        if(currentIndex < wayPointCount - 1)
+        int waypointEndIndex = playerNo == 0 ? Waypoints.Length - 1 : 0;
+        
+        if ((waypointEndIndex - currentWaypointIndex) * Direction > 0)
         {
-            transform.position = wayPoints[currentIndex].position;
-            currentIndex ++;
-            Vector3 direction = (wayPoints[currentIndex].position - transform.position).normalized;
+            transform.position = Waypoints[currentWaypointIndex].position;
+            currentWaypointIndex += Direction;
+            Vector3 direction = (Waypoints[currentWaypointIndex].position - transform.position).normalized;
             movement2D.MoveTo(direction);
         }
         else
         {
-            PlayerUnitList.Instance.UnitList.Remove(this);
-            Destroy(gameObject); //다음 waypoint가 존재하지않으면 유닛 삭제
+            Arrive();
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        TakeDamageServerRpc(damage);
+    }
+
+    [ServerRpc]
+    private void TakeDamageServerRpc(float damage)
+    {
+        TakeDamageClientRpc(damage);
+    }
+
+    [ClientRpc]
+    private void TakeDamageClientRpc(float damage)
+    {
+        if (damage < 0) return;
+
+        UnitCurrentHealth -= damage;
+
+        if (UnitCurrentHealth <= 0
+            && NetworkManager.Singleton.IsHost)
+        {
+            KillServerRpc();
+        }
+    }
+    
+    public void Arrive()
+    {
+        if (!NetworkManager.Singleton.IsHost)
+            return;
+
+        NetworkObject networkObject = this.GetComponent<NetworkObject>();
+        
+        Player server = NetworkManager.LocalClient.PlayerObject.GetComponent<Player>();
+        
+        if (networkObject.IsOwnedByServer)
+        {
+            Player client = NetworkManager.Singleton.ConnectedClients[server.EnemyId].PlayerObject.GetComponent<Player>();
+            client.TakeDamage(1);
+        }
+        else
+        {
+            server.TakeDamage(1);
+        }
+
+        KillServerRpc();
+    }
+
+    [ServerRpc]
+    private void KillServerRpc()
+    {
+        NetworkObject networkObject = GetComponent<NetworkObject>();
+        PlayerUnitList.Instance.RemoveUnit(this);
+        networkObject.Despawn(true);
     }
 }

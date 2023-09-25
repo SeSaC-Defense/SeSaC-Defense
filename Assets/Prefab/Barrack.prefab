@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5663828076926268479}
   - component: {fileID: -5395315398538640884}
   - component: {fileID: -5017350002597206282}
+  - component: {fileID: -2562824421529425075}
+  - component: {fileID: -7862045073387587680}
   m_Layer: 0
   m_Name: Barrack
   m_TagString: Barrack
@@ -98,12 +100,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef895b6c1c8631d4b8396164bd7684fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit:
+  unitPrefabs:
   - {fileID: 9135633825071683195, guid: 2261c7883aba7894897cda343cbdd738, type: 3}
   - {fileID: 6982864940095610916, guid: 0fc4730cf4291c64b868c9b27dc16261, type: 3}
   - {fileID: 8417231674026362127, guid: a168bc17c4d2c9546bc8de52828b793a, type: 3}
   - {fileID: 6997092030087959833, guid: 49ea79714ee5d9c42905dce25eb1fe54, type: 3}
-  spawnTime: 10
 --- !u!65 &-5017350002597206282
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -125,3 +126,53 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0, z: -0.1}
+--- !u!114 &-2562824421529425075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2493035652158777139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &-7862045073387587680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2493035652158777139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0

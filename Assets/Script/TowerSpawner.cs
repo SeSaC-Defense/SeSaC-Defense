@@ -2,6 +2,7 @@ using Pattern;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public enum TowerType
@@ -13,18 +14,16 @@ public enum TowerType
     Magician4
 }
 
-public class TowerSpawner : Singleton<TowerSpawner>
+public class TowerSpawner : NetworkSingleton<TowerSpawner>
 {
     [SerializeField]
-    private GameObject[] towerPrefab;
-    [SerializeField]
-    private EnemySpawner enemySpawner;
+    private GameObject[] towerPrefabs;
     [SerializeField]
     private Transform[] wayPoints;
     [SerializeField]
-    private PlayerGold playerGold;
-    [SerializeField]
     private int towerBuildGold = 5;
+
+    private PlayerGold playerGold => NetworkManager.LocalClient.PlayerObject.GetComponent<PlayerGold>();
 
     public float TowerBuildGold
     {
@@ -34,6 +33,7 @@ public class TowerSpawner : Singleton<TowerSpawner>
 
     public TowerType TowerChosen { get; set; }
 
+    
 
     public void SpawnTower(Transform tileTransform)
     {
@@ -43,22 +43,38 @@ public class TowerSpawner : Singleton<TowerSpawner>
         {
             return;
         }
-        if (tile.IsBuildTower == true) return;
+        if (tile.HasBuilding == true) return;
 
         playerGold.CurrentGold -= towerBuildGold;
 
-        tile.IsBuildTower = true;
-        GameObject clone = Instantiate(towerPrefab[ix], tileTransform);
+        tile.HasBuilding = true;
         if (ix == 0)
         {
-            clone.GetComponent<UnitSpawner>().Setup(wayPoints);
+            SpawnBarrack(NetworkManager.Singleton.LocalClientId, tileTransform);
             return;
         }
-        clone.GetComponent<TowerWeapon>().Setup(enemySpawner);
+        SpawnTower(NetworkManager.Singleton.LocalClientId, tileTransform);
     }
 
     public void SetTowerType(int towerTypeInInt)
     {
         TowerChosen = (TowerType)towerTypeInInt;
+    }
+
+    private void SpawnBarrack(ulong clientId, Transform tileTransform)
+    {
+        GameObject clone = Instantiate(towerPrefabs[0], tileTransform);
+
+        clone.GetComponent<UnitSpawner>().Setup(clientId, clientId == NetworkManager.ServerClientId ? 0 : 1);
+    }
+
+    private void SpawnTower(ulong clientId, Transform tileTransform)
+    {
+        int ix = (int)TowerChosen;
+
+        GameObject clone = Instantiate(towerPrefabs[ix], tileTransform);
+
+        clone.GetComponent<TowerWeapon>().Setup(clientId, clientId == NetworkManager.ServerClientId ? 0 : 1);
+
     }
 }

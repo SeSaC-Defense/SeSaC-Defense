@@ -1,3 +1,4 @@
+using Pattern;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public enum ButtonGroupType
     Tower
 }
 
-public class ButtonGroupToggle : MonoBehaviour
+public class ButtonGroupToggle : Singleton<ButtonGroupToggle>
 {
     [Header("Button Groups")]
     [SerializeField]
@@ -21,10 +22,14 @@ public class ButtonGroupToggle : MonoBehaviour
     private GameObject buttonGroupConstructionConfirming;
 
     private GameObject currentButtonGroup;
+    private Camera currentCamera;
+
+    public Camera CurrentCamera => currentCamera;
 
     private void Start()
     {
         UIStateEventHandler.OnStateChanged += OnUIStateChanged;
+        Player.OnPlayerCameraChange += OnPlayerCameraChanged;
     }
 
     private void OnUIStateChanged(UIStateType state)
@@ -54,5 +59,10 @@ public class ButtonGroupToggle : MonoBehaviour
 
         currentButtonGroup.SetActive(true);
         currentButtonGroup.GetComponent<UIPosition>().MoveTo(ObjectDetector.Instance.HitTransform);
+    }
+
+    public void OnPlayerCameraChanged(Camera camera)
+    {
+        currentCamera = camera;
     }
 }

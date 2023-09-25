@@ -15,7 +15,7 @@ public class TileHighlighter : MonoBehaviour
         Tile tile = GetComponent<Tile>();
 
         if (UIStateType.ConstructionChecking == state
-            && !tile.IsBuildTower)
+            && !tile.HasBuilding)
             childObject.SetActive(true);
         else
             childObject.SetActive(false);

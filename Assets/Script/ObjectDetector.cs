@@ -1,17 +1,27 @@
 using Pattern;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
+using Unity.Netcode;
 using UnityEngine;
 
 public class ObjectDetector : Singleton<ObjectDetector>
 {    
-    private Camera mainCamera;
+    private new Camera camera;
     public Transform HitTransform { get; private set; }
 
     private void Start()
     {
-        mainCamera = Camera.main;
+        Player.OnPlayerCameraChange += OnPlayerCameraChange;
+        
+        if (NetworkManager.Singleton.IsHost)
+            camera = GameObject.Find("CameraPlayer0").GetComponent<Camera>();
+        else
+            camera = GameObject.Find("CameraPlayer1").GetComponent<Camera>();
+    }
+
+    private void OnPlayerCameraChange(Camera camera)
+    {
+        this.camera = camera;
     }
 
     private void Update()
@@ -21,16 +31,14 @@ public class ObjectDetector : Singleton<ObjectDetector>
         if (CanHit(out hit))
         {
             HitTransform = hit.transform;
-            Debug.Log(hit.transform);
+
             switch ((hit.transform.tag, UIStateEventHandler.Instance.CurrentState))
             {
                 case ("Tile", UIStateType.ConstructionChecking):
-                    if (hit.transform.GetComponent<Tile>().IsBuildTower)
-                        return;
-                    UIStateEventHandler.Instance.ChangeState(UIStateType.ConstructionConfirming);
+                    ChangeUIStateForTile(hit);
                     break;
                 case ("Tower", UIStateType.None):
-                    UIStateEventHandler.Instance.ChangeState(UIStateType.BuildingPressed);
+                    ChangeUIStateForTower(hit);
                     break;
                 case ("Barrack", UIStateType.None):
                     ChangeUIStateForBarrack(hit);
@@ -59,15 +67,55 @@ public class ObjectDetector : Singleton<ObjectDetector>
                 return false;
         }
 
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
         return Physics.Raycast(ray, out hit, Mathf.Infinity);
     }
 
     private void ChangeUIStateForBarrack(RaycastHit hit)
     {
-        if (hit.transform.GetComponent<UnitSpawner>().InOperation)
+        if (!IsBuildingMine(hit))
+            return;
+
+        if (hit.transform.GetComponent<UnitSpawner>().IsOperating)
             UIStateEventHandler.Instance.ChangeState(UIStateType.BuildingPressed);
         else
             UIStateEventHandler.Instance.ChangeState(UIStateType.BarrackPressedOnWaiting);
+    }
+
+    private void ChangeUIStateForTile(RaycastHit hit)
+    {
+        if (!IsTileMine(hit))
+            return;
+
+        if (hit.transform.GetComponent<Tile>().HasBuilding)
+            return;
+        
+        UIStateEventHandler.Instance.ChangeState(UIStateType.ConstructionConfirming);
+    }
+
+    private void ChangeUIStateForTower(RaycastHit hit)
+    {
+        if (!IsBuildingMine(hit))
+            return;
+
+        UIStateEventHandler.Instance.ChangeState(UIStateType.BuildingPressed);
+    }
+
+    private bool IsBuildingMine(RaycastHit hit)
+    {
+        ulong ownerId = hit.transform.GetComponent<NetworkObject>().OwnerClientId;
+        ulong myId = NetworkManager.Singleton.LocalClientId;
+
+        return ownerId == myId;
+    }
+
+    private bool IsTileMine(RaycastHit hit)
+    {
+        if (hit.transform.parent.name == "TileMapSitePlayer0" && NetworkManager.Singleton.IsHost)
+            return true;
+        if (hit.transform.parent.name == "TileMapSitePlayer1" && NetworkManager.Singleton.IsClient)
+            return true;
+
+        return false;
     }
 }

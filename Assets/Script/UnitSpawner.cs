@@ -1,65 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class UnitSpawner : MonoBehaviour
+public class UnitSpawner : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject[] unit;
-    [SerializeField]
-    private float spawnTime;
+    private GameObject[] unitPrefabs;
 
-    private GameObject spawnUnit; //스폰될 유닛
-    private Transform spawnPoint;
-    private Transform[] waypoints;
+    private int playerNo = -1;
+    private int unitTypeIx = -1;
+    private float unitSpawnInterval = 1;
 
-    //private List<Unit> unitList;
-    //public List<Unit> UnitList => unitList;
-
-    public bool InOperation
+    public bool IsOperating
     {
-        set; get;
+        private set; get;
     }
 
     private void Awake()
     {
-        //unitList = new List<Unit>();
-        InOperation = false;
-
-    }
-    private void Start()
-    {
-        WayPointScan();
+        IsOperating = false;
     }
 
-    public void Setup(Transform[] waypoints)
+    public void Setup(ulong clientId, int playerNo)
     {
-        this.waypoints = waypoints;
+        this.playerNo = playerNo;
+        SpawnServerRpc(clientId);
     }
 
-    public void WayPointScan() //waypoint중 가장 가까운것 탐색
+    [ServerRpc]
+    private void SpawnServerRpc(ulong clientId)
     {
-        GameObject[] wayPoints = GameObject.FindGameObjectsWithTag("WayPoint");
-
-        float closestDistance = float.MaxValue;
-        Transform towerTransform = transform;
-
-        foreach (GameObject wayPoint in wayPoints)
-        {
-            float distance = Vector3.Distance(towerTransform.position, wayPoint.transform.position);
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                this.spawnPoint = wayPoint.transform; //가장 가까운 waypoint 저장
-            }
-        }
+        NetworkObject networkObject = GetComponent<NetworkObject>();
+        networkObject.SpawnWithOwnership(clientId);
     }
 
-    public void UnitChoice(int unit)
+    public void UnitChoice(int unitTypeIx)
     {
-        spawnUnit = this.unit[unit];
-        InOperation = true;
+        this.unitTypeIx = unitTypeIx;
+        this.unitSpawnInterval = unitPrefabs[unitTypeIx].GetComponent<Unit>().SpawnInterval;
+        IsOperating = true;
         StartCoroutine("SpawnUnit");
     }
 
@@ -67,11 +47,22 @@ public class UnitSpawner : MonoBehaviour
     {
         while (true)
         {
-            GameObject clone = Instantiate(spawnUnit); //유닛 생성
-            Unit unit = clone.GetComponent<Unit>();
-            unit.SetUp(waypoints, spawnPoint);                      //생성 유닛 정보처리 시작
-            PlayerUnitList.Instance.UnitList.Add(unit);
-            yield return new WaitForSeconds(spawnTime);
+            SpawnUnitServerRpc(NetworkManager.Singleton.LocalClientId, unitTypeIx);
+
+            yield return new WaitForSeconds(unitSpawnInterval);
         }
+    }
+
+    [ServerRpc]
+    private void SpawnUnitServerRpc(ulong clientId, int unitTypeIx)
+    {
+        GameObject unitPrefab = unitPrefabs[unitTypeIx];
+        GameObject clone = Instantiate(unitPrefab);
+
+        Unit unit = clone.GetComponent<Unit>();
+
+        clone.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+
+        unit.Setup(playerNo, transform);
     }
 }

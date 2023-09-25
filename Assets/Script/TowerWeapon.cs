@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public enum WeaponType {  Canon }
 public enum WeaponState { SearchTarget = 0, TryAttackCannon }
 
-public class TowerWeapon : MonoBehaviour
+public class TowerWeapon : NetworkBehaviour
 {
     [Header("Commons")]
     [SerializeField]
@@ -20,15 +22,25 @@ public class TowerWeapon : MonoBehaviour
     [SerializeField]
     private float attackRange = 5f;
 
+    private int playerNo;
     private WeaponState weaponState     = WeaponState.SearchTarget;
     private Transform attackTarget    = null;
-    private EnemySpawner enemySpawner;
-    
+    private IReadOnlyList<Unit> EnemyUnitList => PlayerUnitList.Instance.GetEnemyUnitList(playerNo);
 
-    public void Setup(EnemySpawner enemySpawner)
+    public void Setup(ulong clientId, int playerNo)
     {
-        this.enemySpawner = enemySpawner;
+        this.playerNo = playerNo;
+
+        SpawnServerRpc(clientId);
+
         ChangeState(WeaponState.SearchTarget);
+    }
+
+    [ServerRpc]
+    private void SpawnServerRpc(ulong clientId)
+    {
+        NetworkObject networkObject = GetComponent<NetworkObject>();
+        networkObject.SpawnWithOwnership(clientId);
     }
 
     private void ChangeState(WeaponState NewState)
@@ -65,7 +77,7 @@ public class TowerWeapon : MonoBehaviour
         {
             attackTarget = FindClosestAttackTarget();
 
-            if( attackTarget != null)
+            if ( attackTarget != null)
             {
                 ChangeState(WeaponState.TryAttackCannon);
             }
@@ -89,13 +101,13 @@ public class TowerWeapon : MonoBehaviour
     private Transform FindClosestAttackTarget()
     {
         float ClosestDistSqr = Mathf.Infinity;
-        for ( int i = 0; i < enemySpawner.EnemyList.Count; ++i)
+        for ( int i = 0; i < EnemyUnitList.Count; ++i)
         {
-            float distance = Vector3.Distance(enemySpawner.EnemyList[i].transform.position, transform.position);
+            float distance = Vector3.Distance(EnemyUnitList[i].transform.position, transform.position);
             if ( distance <= attackRange && distance <= ClosestDistSqr)
             {
                 ClosestDistSqr = distance;
-                attackTarget = enemySpawner.EnemyList[i].transform;
+                attackTarget = EnemyUnitList[i].transform;
             }
         }
         return attackTarget;
@@ -118,7 +130,9 @@ public class TowerWeapon : MonoBehaviour
 
     private void SpawnProjectile()
     {
+        ulong clientId = NetworkManager.Singleton.LocalClientId;
         GameObject clone = Instantiate(projectilePrefab, spawnPoint);
-        clone.GetComponent<Projectile>().Setup(attackTarget);
+
+        clone.GetComponent<Projectile>().Setup(clientId, playerNo, attackTarget);
     }
 }

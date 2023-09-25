@@ -9,7 +9,7 @@ public class ButtonGroupBuilding : MonoBehaviour
         GetComponent<UIActiveToggle>().CloseUI();
         Destroy(ObjectDetector.Instance.HitTransform.gameObject);
         Tile tile = ObjectDetector.Instance.HitTransform.parent.GetComponent<Tile>();
-        tile.IsBuildTower = false;
+        tile.HasBuilding = false;
         // TODO: 재화 반환
         GetComponent<UIStateToggle>().OnToggle();
     }

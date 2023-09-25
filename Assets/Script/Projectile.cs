@@ -1,38 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Tilemaps;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : NetworkBehaviour
 {
-    private Movement2D movement2D;
-    private Transform target;
+    [SerializeField]
+    private float damage;
 
-    public void Setup(Transform target)
+    private int playerNo;
+    private Movement2D movement2D;
+
+    public void Setup(ulong clientId, int playerNo, Transform target)
     {
-        movement2D = GetComponent<Movement2D>();
-        this.target = target;
+        this.playerNo = playerNo;
+        this.movement2D = GetComponent<Movement2D>();
+
+        SpawnServerRpc(clientId);
+
+        Vector3 direction = (target.position - transform.position).normalized;
+        movement2D.MoveTo(direction);
     }
 
-    private void Update()
+    [ServerRpc]
+    private void SpawnServerRpc(ulong clientId)
     {
-        if (target != null)
-        {
-            Vector3 direction = (target.position - transform.position).normalized;
-            movement2D.MoveTo(direction);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        NetworkObject networkObject = GetComponent<NetworkObject>();
+        networkObject.SpawnWithOwnership(clientId);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Enemy")) return;
-        if (collision.transform != target)  return;
+        if (!collision.CompareTag("Unit")) return;
 
-        collision.GetComponent<EnemyHP>().TakeDamage(1);
-        Destroy(gameObject);
+        NetworkObject targetObject = collision.GetComponent<NetworkObject>();
+        if (OwnerClientId == targetObject.OwnerClientId) return;
+
+        collision.GetComponent<Unit>().TakeDamage(damage);
+        HitTargetServerRpc();
+    }
+
+    [ServerRpc]
+    private void HitTargetServerRpc()
+    {
+        GetComponent<NetworkObject>().Despawn(true);
     }
 }
