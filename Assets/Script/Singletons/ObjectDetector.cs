@@ -111,11 +111,14 @@ public class ObjectDetector : Singleton<ObjectDetector>
 
     private bool IsTileMine(RaycastHit hit)
     {
-        if (hit.transform.parent.name == "TileMapSitePlayer0" && NetworkManager.Singleton.IsHost)
-            return true;
-        if (hit.transform.parent.name == "TileMapSitePlayer1" && NetworkManager.Singleton.IsClient)
-            return true;
+        int tileMapPlayerNo = hit.transform.parent.GetComponent<TileMapSite>().PlayerNo;
 
-        return false;
+        if (tileMapPlayerNo == 1 && NetworkManager.Singleton.IsHost)
+            return false;
+
+        if (tileMapPlayerNo == 0 && !NetworkManager.Singleton.IsHost)
+            return false;
+
+        return true;
     }
 }

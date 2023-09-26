@@ -1,10 +1,11 @@
+using Pattern;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class GameLifecycle : NetworkBehaviour
+public class GameLifecycle : NetworkSingleton<GameLifecycle>
 {
     [SerializeField]
     GameObject playerPrefab;
@@ -36,7 +37,7 @@ public class GameLifecycle : NetworkBehaviour
 
     public void OnServerStopped(bool IsServerAHost)
     {
-        if (IsClient)
+        if (!IsHost)
         {
             // TODO: EndGame();
         }
@@ -62,8 +63,8 @@ public class GameLifecycle : NetworkBehaviour
             GameObject player = Instantiate(playerPrefab);
             ulong clientId = client.ClientId;
 
-            player.GetComponent<Player>().Setup(GetEnemyId(clientId));
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+            player.GetComponent<Player>().Setup(GetEnemyId(clientId));
         }
 
         yield return new WaitForSeconds(1f);

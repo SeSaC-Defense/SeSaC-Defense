@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public enum WeaponType {  Canon }
+public enum WeaponType { Canon }
 public enum WeaponState { SearchTarget = 0, TryAttackCannon }
 
 public class TowerWeapon : NetworkBehaviour
@@ -26,7 +26,7 @@ public class TowerWeapon : NetworkBehaviour
     private Transform attackTarget = null;
 
     public int PlayerNo => IsOwnedByServer ? 0 : 1;
-    private IReadOnlyList<Unit> EnemyUnitList => PlayerUnitList.Instance.GetEnemyUnitList(PlayerNo);
+    private IReadOnlyList<Transform> EnemyUnitList => PlayerUnitList.Instance.GetEnemyUnitList(PlayerNo);
 
     public void Setup()
     {
@@ -106,17 +106,16 @@ public class TowerWeapon : NetworkBehaviour
     }
     private bool IsPossibleToAttackTarget()
     {
-        if( attackTarget == null)
-        {
+        if (attackTarget == null)
             return false;
-        }
 
-        float distance = Vector3.Distance(attackTarget.position, transform.position );
-        if( distance > attackRange)
+        float distance = Vector3.Distance(attackTarget.position, transform.position);
+        if (distance > attackRange)
         {
             attackTarget = null;
             return false;
         }
+
         return true;
     }
 

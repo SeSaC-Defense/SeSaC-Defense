@@ -40,7 +40,7 @@ public class Unit : NetworkBehaviour
         Transform nearestWaypointTransform = FindNearestWaypointTransform();
         transform.position = GetNearestSpawnPosition(nearestWaypointTransform);
         
-        PlayerUnitList.Instance.AddUnit(this);
+        PlayerUnitList.Instance.AddUnitClientRpc(NetworkObjectId);
 
         StartCoroutine("OnMove");
     }
@@ -134,19 +134,20 @@ public class Unit : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.GetComponent<NetworkObject>().OwnerClientId == OwnerClientId)
+            return;
+
         if (collision.CompareTag("Projectile"))
         {
-            TakeDamage(collision.GetComponent<Projectile>().Damage);
+            TakeDamageServerRpc(collision.GetComponent<Projectile>().Damage);
         }
     }
-    
-    public void TakeDamage(float damage)
+
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(float damage)
     {
-        Debug.Log($"TakeDamage: 1 {unitCurrentHealth.Value}");
-        Debug.Log($"TakeDamage: 2 {Mathf.Max(0, damage)}");
         unitCurrentHealth.Value -= Mathf.Max(0, damage);
 
-        Debug.Log($"TakeDamage: 3 {unitCurrentHealth.Value}");
         if (unitCurrentHealth.Value <= 0)
         {
             Kill();
@@ -160,10 +161,9 @@ public class Unit : NetworkBehaviour
 
     private void Kill()
     {
-        PlayerUnitList.Instance.RemoveUnit(this);
+        PlayerUnitList.Instance.RemoveUnitClientRpc(NetworkObjectId);
 
-        if (IsOwner)
-            KillServerRpc();
+        KillServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]

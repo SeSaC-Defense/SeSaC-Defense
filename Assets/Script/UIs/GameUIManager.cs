@@ -33,7 +33,7 @@ public class GameUIManager : MonoBehaviour
 
     public void UpdateGoldText()
     {
-        if (NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerGold>() == null)
+        if (NetworkManager.Singleton.LocalClient.PlayerObject?.GetComponent<PlayerGold>() == null)
             return;
 
         int gold = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerGold>().CurrentGold;
@@ -51,8 +51,8 @@ public class GameUIManager : MonoBehaviour
 
     public void UpdateUnitProgressBar()
     {
-        List<Unit> player0UnitList = PlayerUnitList.Instance.UnitLists[0];
-        List<Unit> player1UnitList = PlayerUnitList.Instance.UnitLists[1];
+        List<Transform> player0UnitList = PlayerUnitList.Instance.UnitTransformLists[0];
+        List<Transform> player1UnitList = PlayerUnitList.Instance.UnitTransformLists[1];
 
         float player0UnitPositionX = Mathf.NegativeInfinity;
         float player1UnitPositionX = Mathf.Infinity;

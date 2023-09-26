@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4384656293471114114}
   - component: {fileID: -239821491803229487}
   - component: {fileID: 7795949377508416562}
+  - component: {fileID: 5552957694751978315}
   m_Layer: 0
   m_Name: Magician1
   m_TagString: Tower
@@ -177,6 +178,18 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &5552957694751978315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496395576502924931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26019352c3833c74aafde6aac6c68a75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &714059651223466356
 GameObject:
   m_ObjectHideFlags: 0

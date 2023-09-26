@@ -85,6 +85,7 @@ public class TowerSpawner : NetworkBehaviour
 
         NetworkObject networkObject = clone.GetComponent<NetworkObject>();
         networkObject.SpawnWithOwnership(clientId);
+        networkObject.TrySetParent(tileTransform.GetComponent<NetworkObject>(), true);
     }
 
     [ServerRpc]
@@ -93,9 +94,9 @@ public class TowerSpawner : NetworkBehaviour
         Transform tileTransform = NetworkManager.SpawnManager.SpawnedObjects[tileObjectId].transform;
         GameObject clone = Instantiate(towerPrefabs[prefabIx], tileTransform);
 
-
         NetworkObject networkObject = clone.GetComponent<NetworkObject>();
         networkObject.SpawnWithOwnership(clientId);
+        networkObject.TrySetParent(tileTransform.GetComponent<NetworkObject>(), true);
 
         clone.GetComponent<TowerWeapon>().Setup();
     }
