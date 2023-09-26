@@ -1,3 +1,4 @@
+using Pattern;
 using System;
 using System.Threading.Tasks;
 using Unity.Netcode;
@@ -9,7 +10,7 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
 
-public class RelayManager : MonoBehaviour
+public class RelayManager : Singleton<RelayManager>
 {
     [SerializeField]
     GameObject uiRelay;
@@ -27,7 +28,6 @@ public class RelayManager : MonoBehaviour
 
     public async void OnStartHost()
     {
-        uiGroupHost.SetStartButtonInteractable(false);
         panelLoading.SetActive(true);
 
         try
@@ -40,7 +40,8 @@ public class RelayManager : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(data);
             NetworkManager.Singleton.StartHost();
 
-            uiGroupHost.SetStartButtonInteractable(true);
+            string joinCode = await GetJoinCodeAsync();
+            uiGroupHost.SetJoinCodeText(joinCode);
         }
         catch (Exception e)
         {
@@ -77,23 +78,6 @@ public class RelayManager : MonoBehaviour
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
-    public async void GetJoinCode()
-    {
-        panelLoading.SetActive(true);
-
-        try
-        {
-            string joinCode = await GetJoinCodeAsync();
-            uiGroupHost.SetJoinCodeText(joinCode);
-        }
-        catch (Exception e)
-        {
-            ShowErrorMessage(e);
-        }
-
-        panelLoading.SetActive(false);
-    }
-
     public async Task<string> GetJoinCodeAsync()
     {
         return await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
@@ -101,15 +85,7 @@ public class RelayManager : MonoBehaviour
 
     public void OnStartGameHost()
     {
-        try
-        {
-
-            uiRelay.SetActive(false);
-        }
-        catch (Exception e)
-        {
-            ShowErrorMessage(e);
-        }
+        uiRelay.SetActive(false);
     }
 
     public async void OnStartGameGuest()
@@ -162,4 +138,6 @@ public class RelayManager : MonoBehaviour
         messageBox.SetActive(true);
         messageBox.SetMessage(message);
     }
+
+
 }

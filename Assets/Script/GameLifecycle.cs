@@ -21,6 +21,7 @@ public class GameLifecycle : NetworkBehaviour
         if (IsHost
             && NetworkManager.ConnectedClientsList.Count == 2)
         {
+            RelayManager.Instance.OnStartGameHost();
             StartGame();
         }
     }
@@ -48,7 +49,7 @@ public class GameLifecycle : NetworkBehaviour
 
     private IEnumerator StartGameCoroutine()
     {
-        for (int i = 5; i > 0; i--)
+        for (int i = 1; i > 0; i--)
         {
             CountDownClientRpc(i);
             yield return new WaitForSeconds(1f);
@@ -62,7 +63,6 @@ public class GameLifecycle : NetworkBehaviour
             ulong clientId = client.ClientId;
 
             player.GetComponent<Player>().Setup(GetEnemyId(clientId));
-
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
         }
 

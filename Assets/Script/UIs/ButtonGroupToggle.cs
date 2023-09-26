@@ -12,7 +12,7 @@ public enum ButtonGroupType
     Tower
 }
 
-public class ButtonGroupToggle : Singleton<ButtonGroupToggle>
+public class ButtonGroupToggle : MonoBehaviour
 {
     [Header("Button Groups")]
     [SerializeField]
@@ -23,16 +23,10 @@ public class ButtonGroupToggle : Singleton<ButtonGroupToggle>
     private GameObject buttonGroupConstructionConfirming;
 
     private GameObject currentButtonGroup;
-    private Camera currentCamera;
-
-    public Camera CurrentCamera => currentCamera;
 
     private void Start()
     {
         UIStateEventHandler.OnStateChanged += OnUIStateChanged;
-        Player.OnPlayerCameraChange += OnPlayerCameraChanged;
-
-        currentCamera = Camera.current;
     }
 
     private void OnUIStateChanged(UIStateType state)
@@ -64,10 +58,5 @@ public class ButtonGroupToggle : Singleton<ButtonGroupToggle>
 
         currentButtonGroup.SetActive(true);
         currentButtonGroup.GetComponent<UIPosition>().MoveTo(ObjectDetector.Instance.HitTransform);
-    }
-
-    public void OnPlayerCameraChanged(Camera camera)
-    {
-        currentCamera = camera;
     }
 }

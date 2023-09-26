@@ -11,21 +11,16 @@ public class UIGroupHost : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI textJoinCode;
     [SerializeField]
-    Button btnStart;
+    TextMeshProUGUI textPlayerConnected;
 
     public void SetJoinCodeText(string text)
     {
         textJoinCode.text = text;
     }
 
-    public void SetStartButtonInteractable(bool interactable)
+    public void SetPlayerConnectedText(string text)
     {
-        btnStart.interactable = interactable;
-    }
-
-    public void OnBtnJoinCodePressed()
-    {
-        relayManager.GetJoinCode();
+        textPlayerConnected.text = text;
     }
 
     public void OnBtnStartPressed()

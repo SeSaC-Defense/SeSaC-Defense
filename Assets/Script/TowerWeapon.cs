@@ -18,13 +18,13 @@ public class TowerWeapon : NetworkBehaviour
     [SerializeField]
     private GameObject projectilePrefab;
     [SerializeField]
-    private float attackRate  = 1.0f;
+    private float attackRate = 1.0f;
     [SerializeField]
     private float attackRange = 5f;
 
-    private WeaponState weaponState     = WeaponState.SearchTarget;
-    private Transform attackTarget    = null;
-    
+    private WeaponState weaponState = WeaponState.SearchTarget;
+    private Transform attackTarget = null;
+
     public int PlayerNo => IsOwnedByServer ? 0 : 1;
     private IReadOnlyList<Unit> EnemyUnitList => PlayerUnitList.Instance.GetEnemyUnitList(PlayerNo);
 
@@ -84,8 +84,7 @@ public class TowerWeapon : NetworkBehaviour
                 break;
             }
 
-            ulong playerId = NetworkManager.Singleton.LocalClientId;
-            SpawnProjectileServerRpc(playerId, spawnPoint.position, attackTarget.position);
+            SpawnProjectileServerRpc(OwnerClientId, spawnPoint.position, attackTarget.position);
 
             yield return new WaitForSeconds(attackRate);
         }
@@ -121,14 +120,14 @@ public class TowerWeapon : NetworkBehaviour
         return true;
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void SpawnProjectileServerRpc(ulong clientId, Vector3 spawnPosition, Vector3 targetPosition)
     {
         GameObject clone = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
 
-        clone.GetComponent<Projectile>().Setup(targetPosition);
-        
         NetworkObject networkObject = clone.GetComponent<NetworkObject>();
         networkObject.SpawnWithOwnership(clientId);
+        
+        clone.GetComponent<Projectile>().Setup(targetPosition);
     }
 }

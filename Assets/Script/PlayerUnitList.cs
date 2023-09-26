@@ -25,30 +25,15 @@ public class PlayerUnitList : Singleton<PlayerUnitList>
         unitLists[1] = new List<Unit>();
     }
 
-    private void Update()
-    {
-        //float farthestUnitPositionX = -100f;
-        
-        //foreach (var unit in unitLists[0])
-        //{
-        //    if (unit.transform.position.x > farthestUnitPositionX)
-        //    {
-        //        farthestUnitPositionX = unit.transform.position.x;
-        //    }
-        //}
-
-        //unitProgressBar.PlayerUnitPositionX = farthestUnitPositionX;
-    }
-
     public IReadOnlyList<Unit> GetEnemyUnitList(int playerNo)
     {
         return unitLists[playerNo == 0 ? 1 : 0];
     }
 
-    [ClientRpc]
-    public void AddUnitClientRpc(Unit unit)
+    public void AddUnit(Unit unit)
     {
         NetworkObject networkObject = unit.GetComponent<NetworkObject>();
+
         if (networkObject.IsOwnedByServer)
         {
             unitLists[0].Add(unit);
@@ -59,10 +44,10 @@ public class PlayerUnitList : Singleton<PlayerUnitList>
         }
     }
 
-    [ClientRpc]
-    public void RemoveUnitClientRpc(Unit unit)
+    public void RemoveUnit(Unit unit)
     {
         NetworkObject networkObject = unit.GetComponent<NetworkObject>();
+
         if (networkObject.IsOwnedByServer)
         {
             unitLists[0].Remove(unit);

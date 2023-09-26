@@ -14,27 +14,33 @@ public class Unit : NetworkBehaviour
     public float SpawnInterval => template.spawnInterval;
     public int PlayerNo => IsOwnedByServer ? 0 : 1;
     private int Direction => PlayerNo == 0 ? 1 : -1;
-    private float UnitMaxHealth => template.unitData[PlayerNo].maxHealth;
-    private float UnitCurrentHealth { get; set; }
+    public float UnitMaxHealth => template.maxHealth;
+    private NetworkVariable<float> unitCurrentHealth;
+    public float UnitCurrentHealth => unitCurrentHealth.Value;
     private Transform[] Waypoints => TileMapWaypoint.Instance.Waypoints;
+
+    private void Awake()
+    {
+        unitCurrentHealth = new NetworkVariable<float>(UnitMaxHealth);
+    }
 
     [ClientRpc]
     public void SetupClientRpc()
     {
         this.movement2D = GetComponent<Movement2D>();
-        this.UnitCurrentHealth = UnitMaxHealth;
+        this.unitCurrentHealth.Value = UnitMaxHealth;
 
         this.currentWaypointIndex = FindNearestWaypointIndex();
         
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
         int playerNo = IsOwnedByServer ? 0 : 1;
-        spriteRenderer.sprite = template.unitData[playerNo].sprite;
+        spriteRenderer.sprite = template.playerSideData[playerNo].sprite;
 
         Transform nearestWaypointTransform = FindNearestWaypointTransform();
         transform.position = GetNearestSpawnPosition(nearestWaypointTransform);
         
-        PlayerUnitList.Instance.AddUnitClientRpc(this);
+        PlayerUnitList.Instance.AddUnit(this);
 
         StartCoroutine("OnMove");
     }
@@ -61,7 +67,6 @@ public class Unit : NetworkBehaviour
     {
         while (true)
         {
-            Debug.Log(currentWaypointIndex);
             float distance = Vector3.Distance(transform.position, Waypoints[currentWaypointIndex].position);
             
             if (distance < 0.02f * movement2D.MoveSpeed)
@@ -127,58 +132,43 @@ public class Unit : NetworkBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Projectile"))
+        {
+            TakeDamage(collision.GetComponent<Projectile>().Damage);
+        }
+    }
+    
     public void TakeDamage(float damage)
     {
-        TakeDamageServerRpc(damage);
-    }
+        Debug.Log($"TakeDamage: 1 {unitCurrentHealth.Value}");
+        Debug.Log($"TakeDamage: 2 {Mathf.Max(0, damage)}");
+        unitCurrentHealth.Value -= Mathf.Max(0, damage);
 
-    [ServerRpc]
-    private void TakeDamageServerRpc(float damage)
-    {
-        TakeDamageClientRpc(damage);
-    }
-
-    [ClientRpc]
-    private void TakeDamageClientRpc(float damage)
-    {
-        if (damage < 0) return;
-
-        UnitCurrentHealth -= damage;
-
-        if (UnitCurrentHealth <= 0
-            && NetworkManager.Singleton.IsHost)
+        Debug.Log($"TakeDamage: 3 {unitCurrentHealth.Value}");
+        if (unitCurrentHealth.Value <= 0)
         {
-            KillServerRpc();
+            Kill();
         }
     }
     
     public void Arrive()
     {
-        if (!NetworkManager.Singleton.IsHost)
-            return;
-
-        NetworkObject networkObject = this.GetComponent<NetworkObject>();
-        
-        Player server = NetworkManager.LocalClient.PlayerObject.GetComponent<Player>();
-        
-        if (networkObject.IsOwnedByServer)
-        {
-            Player client = NetworkManager.Singleton.ConnectedClients[server.EnemyId].PlayerObject.GetComponent<Player>();
-            client.TakeDamage(1);
-        }
-        else
-        {
-            server.TakeDamage(1);
-        }
-
-        KillServerRpc();
+        Kill();
     }
 
-    [ServerRpc]
-    private void KillServerRpc()
+    private void Kill()
     {
-        NetworkObject networkObject = GetComponent<NetworkObject>();
-        PlayerUnitList.Instance.RemoveUnitClientRpc(this);
-        networkObject.Despawn(true);
+        PlayerUnitList.Instance.RemoveUnit(this);
+
+        if (IsOwner)
+            KillServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void KillServerRpc()
+    {
+        GetComponent<NetworkObject>().Despawn(true);
     }
 }

@@ -10,6 +10,8 @@ public class Projectile : NetworkBehaviour
 
     private Movement2D movement2D;
 
+    public float Damage => damage;
+
     public void Setup(Vector3 targetPosition)
     {
         this.movement2D = GetComponent<Movement2D>();
@@ -20,13 +22,17 @@ public class Projectile : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Unit")) return;
+        if (!collision.CompareTag("Unit"))
+            return;
 
+        NetworkObject projectileObject = GetComponent<NetworkObject>();
         NetworkObject targetObject = collision.GetComponent<NetworkObject>();
-        if (OwnerClientId == targetObject.OwnerClientId) return;
 
-        collision.GetComponent<Unit>().TakeDamage(damage);
-        HitTargetServerRpc();
+        if (projectileObject.OwnerClientId == targetObject.OwnerClientId)
+            return;
+
+        if (IsOwner)
+            HitTargetServerRpc();
     }
 
     [ServerRpc]

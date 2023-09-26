@@ -4,14 +4,14 @@ using UnityEngine;
 [CreateAssetMenu]
 public class UnitTemplate : ScriptableObject
 {
-    public UnitData[] unitData;
+    public UnitPlayerSideData[] playerSideData;
+    public float maxHealth;
     public float spawnInterval;
 
     [Serializable]
-    public struct UnitData
+    public struct UnitPlayerSideData
     {
         public Sprite sprite;
         public int direction;
-        public float maxHealth;
     }
 }

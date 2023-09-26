@@ -5,31 +5,30 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
-    public delegate void PlayerCameraChanged(Camera camera);
-    public static event PlayerCameraChanged OnPlayerCameraChange;
-
-    //[SerializeField]
-    //private UICount hpText;
-
-    private Camera cameraPlayerBase;
-    private Camera cameraEnemyBase;
     private ulong enemyId;
     private int maxHP = 10;
-    private int currentHP;
+    private NetworkVariable<int> currentHP;
     
     public int MaxHP => maxHP;
-    public int CurrentHP => currentHP;
+    public int CurrentHP => currentHP.Value;
     public int PlayerNo => IsOwnedByServer ? 0 : 1;
     public ulong EnemyId => enemyId;
 
     private void Awake()
     {
-        currentHP = maxHP;
+        currentHP = new NetworkVariable<int>(maxHP);
     }
 
     public void Setup(ulong enemyId)
     {
         this.enemyId = enemyId;
+
+        TileMapWaypoint tileMapWaypoint = TileMapWaypoint.Instance;
+
+        Transform waypointFirst = tileMapWaypoint.Waypoints[0];
+        Transform waypointLast = tileMapWaypoint.Waypoints[tileMapWaypoint.Waypoints.Length - 1];
+
+        transform.position = PlayerNo == 0 ? waypointFirst.position : waypointLast.position;
     }
 
     [ClientRpc]
@@ -37,52 +36,40 @@ public class Player : NetworkBehaviour
     {
         if (IsHost)
         {
-            cameraPlayerBase = GameObject.Find("CameraPlayer0").GetComponent<Camera>();
-            cameraEnemyBase = GameObject.Find("CameraPlayer1").GetComponent<Camera>();
+            CameraManager.Instance.SwitchCameraTo(0);
         }
         else
         {
-            cameraPlayerBase = GameObject.Find("CameraPlayer1").GetComponent<Camera>();
-            cameraEnemyBase = GameObject.Find("CameraPlayer0").GetComponent<Camera>();
+            CameraManager.Instance.SwitchCameraTo(1);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Unit"))
+        {
+            TakeDamage(1);
+        }
+    }
+
+    public void Start()
+    {
+        GameUIManager uiManager = GameObject.Find("Canvas").transform.Find("CanvasGame").GetComponent<GameUIManager>();
+
+        if (IsOwnedByServer)
+        {
+            uiManager.Player0 = this;
+        }
+        else
+        {
+            uiManager.Player1 = this;
         }
 
-        SwitchCameraToPlayerBase();
+        base.OnNetworkSpawn();
     }
 
     public void TakeDamage(int damage)
     {
-        TakeDamageServerRpc(damage);
-    }
-
-    [ServerRpc]
-    private void TakeDamageServerRpc(int damage)
-    {
-        TakeDamageClientRpc(damage);
-    }
-
-    [ClientRpc]
-    private void TakeDamageClientRpc(int damage)
-    {
-        currentHP -= damage;
-
-        if (currentHP <= 0)
-        {
-            print("die");
-            //³¡
-        }
-    }
-
-    public void SwitchCameraToPlayerBase()
-    {
-        cameraPlayerBase.enabled = true;
-        cameraEnemyBase.enabled = false;
-        OnPlayerCameraChange?.Invoke(cameraPlayerBase);
-    }
-
-    public void SwitchCameraToEnemyBase()
-    {
-        cameraPlayerBase.enabled = false;
-        cameraEnemyBase.enabled = true;
-        OnPlayerCameraChange?.Invoke(cameraEnemyBase);
+        currentHP.Value -= damage;
     }
 }

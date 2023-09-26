@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df5f0a58bdb0b94a9166032442d4153, type: 3}
   m_Name: Unit1
   m_EditorClassIdentifier: 
-  unitData:
+  playerSideData:
   - sprite: {fileID: 116251137, guid: cd64d5cfaca8b084eb2eab8e82c88e2a, type: 3}
     direction: 1
   - sprite: {fileID: -1832246623, guid: c90f51917dd024b4292d48e083a08995, type: 3}
     direction: -1
+  maxHealth: 2
   spawnInterval: 3

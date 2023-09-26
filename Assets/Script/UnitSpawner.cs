@@ -6,6 +6,8 @@ public class UnitSpawner : NetworkBehaviour
 {
     [SerializeField]
     private GameObject[] unitPrefabs;
+    [SerializeField]
+    private GameObject unitHealthBarPrefab;
 
     private int unitTypeIx = -1;
     private float unitSpawnInterval = 1;
@@ -49,5 +51,18 @@ public class UnitSpawner : NetworkBehaviour
         clone.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
 
         unit.SetupClientRpc();
+
+        ulong unitNetworkId = clone.GetComponent<NetworkObject>().NetworkObjectId;
+        CreateHealthBarClientRpc(clientId, unitNetworkId);
     }
+
+    [ClientRpc]
+    private void CreateHealthBarClientRpc(ulong clientId, ulong unitTransformId)
+    {
+        NetworkObject unitObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[unitTransformId];
+        Transform transform = unitObject.transform;
+        GameObject unitHealthBar = Instantiate(unitHealthBarPrefab);
+        unitHealthBar.GetComponent<UnitHealthBar>().Setup(clientId, transform);
+    }
+
 }

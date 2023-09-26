@@ -105,6 +105,7 @@ MonoBehaviour:
   - {fileID: 6982864940095610916, guid: 0fc4730cf4291c64b868c9b27dc16261, type: 3}
   - {fileID: 8417231674026362127, guid: a168bc17c4d2c9546bc8de52828b793a, type: 3}
   - {fileID: 6997092030087959833, guid: 49ea79714ee5d9c42905dce25eb1fe54, type: 3}
+  unitHealthBarPrefab: {fileID: 436755142370929206, guid: 5a1b24565381c1b4f9162f91b95048b1, type: 3}
 --- !u!65 &-5017350002597206282
 BoxCollider:
   m_ObjectHideFlags: 0

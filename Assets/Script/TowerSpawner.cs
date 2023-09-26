@@ -20,9 +20,9 @@ public class TowerSpawner : NetworkBehaviour
     [SerializeField]
     private GameObject[] towerPrefabs;
     [SerializeField]
-    private Transform[] wayPoints;
-    [SerializeField]
     private int towerBuildGold = 5;
+
+    public Transform[] WayPoints => TileMapWaypoint.Instance.Waypoints;
 
     private PlayerGold playerGold => NetworkManager.LocalClient.PlayerObject.GetComponent<PlayerGold>();
 
@@ -34,11 +34,6 @@ public class TowerSpawner : NetworkBehaviour
 
     public TowerType TowerChosen { get; set; }
 
-    private void Start()
-    {
-        wayPoints = GameObject.Find("TileMapWayPointPlayer").GetComponentsInChildren<Transform>();
-    }
-
     public void SpawnTower(Transform tileTransform)
     {
         Tile tile = tileTransform.GetComponent<Tile>();
@@ -49,6 +44,9 @@ public class TowerSpawner : NetworkBehaviour
             return;
 
         playerGold.CurrentGold -= towerBuildGold;
+
+        GameUIManager uiManager = GameObject.Find("Canvas").transform.Find("CanvasGame").GetComponent<GameUIManager>();
+        uiManager.UpdateGoldText();
 
         ulong tileObjectId = tileTransform.GetComponent<NetworkTransform>().NetworkObjectId;
 
@@ -95,9 +93,10 @@ public class TowerSpawner : NetworkBehaviour
         Transform tileTransform = NetworkManager.SpawnManager.SpawnedObjects[tileObjectId].transform;
         GameObject clone = Instantiate(towerPrefabs[prefabIx], tileTransform);
 
-        clone.GetComponent<TowerWeapon>().Setup();
 
         NetworkObject networkObject = clone.GetComponent<NetworkObject>();
         networkObject.SpawnWithOwnership(clientId);
+
+        clone.GetComponent<TowerWeapon>().Setup();
     }
 }

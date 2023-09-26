@@ -11,15 +11,15 @@ public class ObjectDetector : Singleton<ObjectDetector>
 
     private void Start()
     {
-        Player.OnPlayerCameraChange += OnPlayerCameraChange;
+        CameraManager.OnCameraChanged += OnPlayerCameraChanged;
         
         if (NetworkManager.Singleton.IsHost)
-            camera = GameObject.Find("CameraPlayer0").GetComponent<Camera>();
+            camera = CameraManager.Instance.CamerasPlayerBase[0];
         else
-            camera = GameObject.Find("CameraPlayer1").GetComponent<Camera>();
+            camera = CameraManager.Instance.CamerasPlayerBase[1];
     }
 
-    private void OnPlayerCameraChange(Camera camera)
+    private void OnPlayerCameraChanged(Camera camera)
     {
         this.camera = camera;
     }
