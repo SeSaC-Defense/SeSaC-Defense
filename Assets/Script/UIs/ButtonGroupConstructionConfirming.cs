@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,8 @@ public class ButtonGroupConstructionConfirming : MonoBehaviour
     public void OnConfirm()
     {
         GetComponent<UIActiveToggle>().CloseUI();
-        TowerSpawner.Instance.SpawnTower(ObjectDetector.Instance.HitTransform);
+        NetworkObject networkObject = NetworkManager.Singleton.LocalClient.PlayerObject;
+        networkObject.GetComponent<TowerSpawner>().SpawnTower(ObjectDetector.Instance.HitTransform);
         GetComponent<UIStateToggle>().OnToggle();
     }
 

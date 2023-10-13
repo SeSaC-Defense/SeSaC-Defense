@@ -17,31 +17,31 @@ public class UnitProgressBar : MonoBehaviour
     [SerializeField]
     private RectTransform enemyBar;
 
-    private float playerUnitPositionX;
-    private float enemyUnitPositionX;
-    private float playerBasePositionX;
-    private float enemyBasePositionX;
+    private float player0UnitPositionX;
+    private float player1UnitPositionX;
+    private float player0BasePositionX;
+    private float player1BasePositionX;
     private float barLength;
 
-    public float PlayerUnitPositionX { set => playerUnitPositionX = value; }
-    public float EnemyUnitPositionX { set => enemyUnitPositionX = value; }
+    public float Player0UnitPositionX { set => player0UnitPositionX = value; }
+    public float Player1UnitPositionX { set => player1UnitPositionX = value; }
 
     private void Awake()
     {
         barLength = RectTransformUtility.PixelAdjustRect(neutralBar, canvas).size.x;
-        playerBasePositionX = playerBaseTransform.position.x;
-        enemyBasePositionX = enemyBaseTransform.position.x;
+        player0BasePositionX = playerBaseTransform.position.x;
+        player1BasePositionX = enemyBaseTransform.position.x;
     }
 
     private void Update()
     {
-        float distanceBetweenBase = enemyBasePositionX - playerBasePositionX;
+        float distanceBetweenBase = player1BasePositionX - player0BasePositionX;
 
-        float unitPositionNearest = playerUnitPositionX > enemyUnitPositionX ? enemyUnitPositionX : playerUnitPositionX;
-        float unitPositionFarthest = playerUnitPositionX > enemyUnitPositionX ? playerUnitPositionX : enemyUnitPositionX;
+        float unitPositionNearest = player0UnitPositionX > player1UnitPositionX ? player1UnitPositionX : player0UnitPositionX;
+        float unitPositionFarthest = player0UnitPositionX > player1UnitPositionX ? player0UnitPositionX : player1UnitPositionX;
         
-        float playerBarLength = (unitPositionNearest - playerBasePositionX) / distanceBetweenBase;
-        float enemyBarLength = (enemyBasePositionX - unitPositionFarthest) / distanceBetweenBase;
+        float playerBarLength = (unitPositionNearest - player0BasePositionX) / distanceBetweenBase;
+        float enemyBarLength = (player1BasePositionX - unitPositionFarthest) / distanceBetweenBase;
 
         playerBar.sizeDelta = new Vector2(barLength * playerBarLength, playerBar.sizeDelta.y);
         enemyBar.sizeDelta = new Vector2(barLength * enemyBarLength, enemyBar.sizeDelta.y);

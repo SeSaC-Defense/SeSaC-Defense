@@ -1,38 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Tilemaps;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : NetworkBehaviour
 {
+    [SerializeField]
+    private float damage;
+
     private Movement2D movement2D;
-    private Transform target;
 
-    public void Setup(Transform target)
-    {
-        movement2D = GetComponent<Movement2D>();
-        this.target = target;
-    }
+    public float Damage => damage;
 
-    private void Update()
+    public void Setup(Vector3 targetPosition)
     {
-        if (target != null)
-        {
-            Vector3 direction = (target.position - transform.position).normalized;
-            movement2D.MoveTo(direction);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        this.movement2D = GetComponent<Movement2D>();
+
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        movement2D.MoveTo(direction);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Enemy")) return;
-        if (collision.transform != target)  return;
+        if (!collision.CompareTag("Unit"))
+            return;
 
-        collision.GetComponent<EnemyHP>().TakeDamage(1);
-        Destroy(gameObject);
+        NetworkObject projectileObject = GetComponent<NetworkObject>();
+        NetworkObject targetObject = collision.GetComponent<NetworkObject>();
+
+        if (projectileObject.OwnerClientId == targetObject.OwnerClientId)
+            return;
+
+        if (IsOwner)
+            HitTargetServerRpc();
+    }
+
+    [ServerRpc]
+    private void HitTargetServerRpc()
+    {
+        GetComponent<NetworkObject>().Despawn(true);
     }
 }

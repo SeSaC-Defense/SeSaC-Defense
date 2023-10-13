@@ -1,23 +1,33 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class Movement2D : MonoBehaviour
+public class Movement2D : NetworkBehaviour
 {
     [SerializeField]
-    private float moveSpeed = 0.0f; //유닛 이동속도
-    [SerializeField]
+    private float moveSpeed = 1.0f;
     private Vector3 moveDirection = Vector3.zero;
 
     public float MoveSpeed => moveSpeed;
 
+    public void Setup(float moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
+    }
+
     private void Update()
     {
-        //오브젝트의 포지션을 moveDirection으로 moveSpeed의 속도로 이동하게
+        Move();
+    }
+
+    public void Move()
+    {
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
     }
-    public void MoveTo(Vector3 directtion) 
+
+    public void MoveTo(Vector3 direction) 
     {
         //변수값을 이동할 위치에 넣어줌
-        moveDirection = directtion;
+        moveDirection = direction;
         if (moveDirection.x < 0) //이동할 방향이 좌측이라면 좌측을 바라보고
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = true;

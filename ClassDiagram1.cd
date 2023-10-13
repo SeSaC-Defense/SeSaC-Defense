@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GameLifecycle" Collapsed="true">
+    <Position X="36.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAQAAAAAGAAAAAABCAAAAAgCAAAACAAAAAAgAAAAAA=</HashCode>
+      <FileName>Assets\Script\GameLifecycle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Movement2D" Collapsed="true">
+    <Position X="31.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAGIAAABAAAAAAAACAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Movement2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetworkCommandLine" Collapsed="true">
+    <Position X="33" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAEAA=</HashCode>
+      <FileName>Assets\Script\Networks\NetworkCommandLine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerDependent" Collapsed="true">
+    <Position X="27.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Script\Networks\PlayerDependent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RelayManager" Collapsed="true">
+    <Position X="33" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQgAEAgAEkAAgAAIAAAAAAEAwAIAAgACAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Script\Networks\RelayManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectDestroyer" Collapsed="true">
+    <Position X="8.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\ObjectDestroyer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectDetector" Collapsed="true">
+    <Position X="14" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAAAAAAiAAEAIAACACAAAAQAAAAAAAIEAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\ObjectDetector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player" Collapsed="true">
+    <Position X="36.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACoAAIAAgkIICMACAABAAAAAAAAAAgAAIAEA=</HashCode>
+      <FileName>Assets\Script\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerGold" Collapsed="true">
+    <Position X="29.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\PlayerGold.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerUnitList" Collapsed="true">
+    <Position X="25.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAACAAAAAACABAAAAAQgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\PlayerUnitList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projectile" Collapsed="true">
+    <Position X="31.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAGAAAgAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Projectile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneSwitcher" Collapsed="true">
+    <Position X="9.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\SceneSwitcher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BGMChanger" Collapsed="true">
+    <Position X="27.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Assets\Script\Sounds\BGMChanger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BGMInitializer" Collapsed="true">
+    <Position X="11.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Sounds\BGMInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BGMManager" Collapsed="true">
+    <Position X="16.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACIAAAACABAAAAAAAAAAgAAAAAEAAACgACAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Sounds\BGMManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SFXInitializer" Collapsed="true">
+    <Position X="14" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Sounds\SFXInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SFXManager" Collapsed="true">
+    <Position X="18.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAACAAAAAAAAAAAAgAAAAAEAAACgAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Sounds\SFXManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SFXPlayer" Collapsed="true">
+    <Position X="34.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Sounds\SFXPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundInitializer" Collapsed="true">
+    <Position X="13" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Assets\Script\Sounds\SoundInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundVO" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAABAAAQAAQIAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Assets\Script\Sounds\SoundVO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TowerTemplate" Collapsed="true">
+    <Position X="36.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Templates\TowerTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTemplate" Collapsed="true">
+    <Position X="36.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Assets\Script\Templates\UnitTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tile" Collapsed="true">
+    <Position X="27.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Script\Tiles\Tile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TileMapSite" Collapsed="true">
+    <Position X="31.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Tiles\TileMapSite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TileMapWaypoint" Collapsed="true">
+    <Position X="20.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Tiles\TileMapWaypoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TowerSpawner" Collapsed="true">
+    <Position X="34.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEACAIAAAACAAAAwAAAAAEAABAAAAAgEAAAAE=</HashCode>
+      <FileName>Assets\Script\TowerSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TowerWeapon" Collapsed="true">
+    <Position X="27.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAiAACgAABAAABABgABAQABAAAAKgAAAAAAIAAAQ=</HashCode>
+      <FileName>Assets\Script\TowerWeapon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ButtonGroupBarrackOnWaiting" Collapsed="true">
+    <Position X="29.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAACACAAAAAAAQAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\ButtonGroupBarrackOnWaiting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ButtonGroupBuilding" Collapsed="true">
+    <Position X="31.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\ButtonGroupBuilding.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ButtonGroupConstruction" Collapsed="true">
+    <Position X="33" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABEACACAAAAAAAAAAAAAAQAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\ButtonGroupConstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ButtonGroupConstructionConfirming" Collapsed="true">
+    <Position X="34.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAgCBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\ButtonGroupConstructionConfirming.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ButtonGroupToggle" Collapsed="true">
+    <Position X="11.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAgABAAIACAAAEAAAAACAAAAAAAAAAAAAAEAAAAAAIA=</HashCode>
+      <FileName>Assets\Script\UIs\ButtonGroupToggle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageLoading" Collapsed="true">
+    <Position X="27.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\ImageLoading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MessageBox" Collapsed="true">
+    <Position X="29.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAIAAAAE=</HashCode>
+      <FileName>Assets\Script\UIs\MessageBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PanelMask" Collapsed="true">
+    <Position X="34.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAABAAAACAAAAAAABAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\PanelMask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TileHighlighter" Collapsed="true">
+    <Position X="29.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\TileHighlighter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ToggleSlider" Collapsed="true">
+    <Position X="33" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAIAAAAAAAAAAAAAAAAAAABQAAAUAAAAAEA=</HashCode>
+      <FileName>Assets\Script\UIs\ToggleSlider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIActiveToggle" Collapsed="true">
+    <Position X="29.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\UIActiveToggle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UICount" Collapsed="true">
+    <Position X="31.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAIAAAAAAAAAEQ=</HashCode>
+      <FileName>Assets\Script\UIs\UICount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIGroupGuest" Collapsed="true">
+    <Position X="33" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAIABAAAAAAAAAAAAAAAAEAAAAAAAAAACBAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\UIGroupGuest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIGroupHost" Collapsed="true">
+    <Position X="34.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAIQAAAAAAAAAAAAAAAAEAAAAAAAAAACBAAAAAIAA=</HashCode>
+      <FileName>Assets\Script\UIs\UIGroupHost.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIPosition" Collapsed="true">
+    <Position X="36.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\UIPosition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIRelayMenu" Collapsed="true">
+    <Position X="27.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAEAAAAAAAAAAAAAAAAAQAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\UIRelayMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIStateEventHandler" Collapsed="true">
+    <Position X="23" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABCAABAAAAAAAACAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\UIStateEventHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIStateToggle" Collapsed="true">
+    <Position X="29.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAIAAAAAA=</HashCode>
+      <FileName>Assets\Script\UIs\UIStateToggle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitProgressBar" Collapsed="true">
+    <Position X="33" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIQAAAAgAAAAEAAAAAAAASAAgAIAgIAIAAAgAIAEA=</HashCode>
+      <FileName>Assets\Script\UIs\UnitProgressBar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Unit" Collapsed="true">
+    <Position X="31.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEBAABAgAAYADAADAAAgAAAAAABAAACECEgAAIAAA=</HashCode>
+      <FileName>Assets\Script\Unit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitSpawner" Collapsed="true">
+    <Position X="34.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAhAAAAAAgAAAAAIAAQgAEA=</HashCode>
+      <FileName>Assets\Script\UnitSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pattern.NetworkSingleton&lt;T&gt;" Collapsed="true">
+    <Position X="8.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Script\Patterns\NetworkSingleton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pattern.Singleton&lt;T&gt;" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Script\Patterns\Singleton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IOptionDestination&lt;T&gt;" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Interfaces\IOptionDestination.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IOptionSourceBool" Collapsed="true">
+    <Position X="11.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Interfaces\IOptionSourceBool.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IOptionSourceFloat" Collapsed="true">
+    <Position X="14" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Interfaces\IOptionSourceFloat.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ISoundManager" Collapsed="true">
+    <Position X="27.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACgAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Interfaces\ISoundManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IToggleSliderAction" Collapsed="true">
+    <Position X="29.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Interfaces\IToggleSliderAction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IToggleSliderVO" Collapsed="true">
+    <Position X="8.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Interfaces\IToggleSliderVO.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="TowerType" Collapsed="true">
+    <Position X="29.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIAAAAAAA=</HashCode>
+      <FileName>Assets\Script\TowerSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WeaponType" Collapsed="true">
+    <Position X="34.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\TowerWeapon.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WeaponState" Collapsed="true">
+    <Position X="33" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Assets\Script\TowerWeapon.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ButtonGroupType" Collapsed="true">
+    <Position X="27.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAQAAAAAAAAAAAAAAAAAAAAAABAAACA=</HashCode>
+      <FileName>Assets\Script\UIs\ButtonGroupToggle.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="UIStateType" Collapsed="true">
+    <Position X="31.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAQAAAAAAAAAAAAAACAAAAAAAAAGAgCA=</HashCode>
+      <FileName>Assets\Script\UIs\UIStateEventHandler.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,9 @@ public class ButtonGroupConstruction : MonoBehaviour
             return;
         }
 
-        TowerSpawner.Instance.SetTowerType(ix);
+        TowerSpawner towerSpawner = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TowerSpawner>();
+        towerSpawner.SetTowerType(ix);
+
         currentButtonIndex = ix;
         buttonImages[currentButtonIndex].color = Color.gray;
     }

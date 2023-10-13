@@ -1,65 +1,32 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class UnitSpawner : MonoBehaviour
+public class UnitSpawner : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject[] unit;
+    private GameObject[] unitPrefabs;
     [SerializeField]
-    private float spawnTime;
+    private GameObject unitHealthBarPrefab;
 
-    private GameObject spawnUnit; //스폰될 유닛
-    private Transform spawnPoint;
-    private Transform[] waypoints;
+    private int unitTypeIx = -1;
+    private float unitSpawnInterval = 1;
 
-    //private List<Unit> unitList;
-    //public List<Unit> UnitList => unitList;
-
-    public bool InOperation
+    public bool IsOperating
     {
-        set; get;
+        private set; get;
     }
 
     private void Awake()
     {
-        //unitList = new List<Unit>();
-        InOperation = false;
-
-    }
-    private void Start()
-    {
-        WayPointScan();
+        IsOperating = false;
     }
 
-    public void Setup(Transform[] waypoints)
+    public void UnitChoice(int unitTypeIx)
     {
-        this.waypoints = waypoints;
-    }
-
-    public void WayPointScan() //waypoint중 가장 가까운것 탐색
-    {
-        GameObject[] wayPoints = GameObject.FindGameObjectsWithTag("WayPoint");
-
-        float closestDistance = float.MaxValue;
-        Transform towerTransform = transform;
-
-        foreach (GameObject wayPoint in wayPoints)
-        {
-            float distance = Vector3.Distance(towerTransform.position, wayPoint.transform.position);
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                this.spawnPoint = wayPoint.transform; //가장 가까운 waypoint 저장
-            }
-        }
-    }
-
-    public void UnitChoice(int unit)
-    {
-        spawnUnit = this.unit[unit];
-        InOperation = true;
+        this.unitTypeIx = unitTypeIx;
+        this.unitSpawnInterval = unitPrefabs[unitTypeIx].GetComponent<Unit>().SpawnInterval;
+        IsOperating = true;
         StartCoroutine("SpawnUnit");
     }
 
@@ -67,11 +34,35 @@ public class UnitSpawner : MonoBehaviour
     {
         while (true)
         {
-            GameObject clone = Instantiate(spawnUnit); //유닛 생성
-            Unit unit = clone.GetComponent<Unit>();
-            unit.SetUp(waypoints, spawnPoint);                      //생성 유닛 정보처리 시작
-            PlayerUnitList.Instance.UnitList.Add(unit);
-            yield return new WaitForSeconds(spawnTime);
+            SpawnUnitServerRpc(NetworkManager.Singleton.LocalClientId, unitTypeIx, transform.position);
+
+            yield return new WaitForSeconds(unitSpawnInterval);
         }
     }
+
+    [ServerRpc]
+    private void SpawnUnitServerRpc(ulong clientId, int unitTypeIx, Vector3 spawnPosition)
+    {
+        GameObject unitPrefab = unitPrefabs[unitTypeIx];
+        GameObject clone = Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
+
+        Unit unit = clone.GetComponent<Unit>();
+
+        clone.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+
+        unit.SetupClientRpc();
+
+        ulong unitNetworkId = clone.GetComponent<NetworkObject>().NetworkObjectId;
+        CreateHealthBarClientRpc(clientId, unitNetworkId);
+    }
+
+    [ClientRpc]
+    private void CreateHealthBarClientRpc(ulong clientId, ulong unitTransformId)
+    {
+        NetworkObject unitObject = NetworkManager.Singleton.SpawnManager.SpawnedObjects[unitTransformId];
+        Transform transform = unitObject.transform;
+        GameObject unitHealthBar = Instantiate(unitHealthBarPrefab);
+        unitHealthBar.GetComponent<UnitHealthBar>().Setup(clientId, transform);
+    }
+
 }

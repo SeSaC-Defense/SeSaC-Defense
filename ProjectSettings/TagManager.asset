@@ -6,17 +6,12 @@ TagManager:
   tags:
   - Tile
   - Tower
-  - Attack
-  - EnemyWayPoint
   - WayPoint
   - Unit
-  - Enemy
   - Waypoint
-  - EnemyAttack
-  - EnemyTile
   - TileHighlight
-  - EnemyTower
   - Barrack
+  - Projectile
   layers:
   - Default
   - TransparentFX

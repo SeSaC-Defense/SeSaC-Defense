@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public enum WeaponType {  Canon }
+public enum WeaponType { Canon }
 public enum WeaponState { SearchTarget = 0, TryAttackCannon }
 
-public class TowerWeapon : MonoBehaviour
+public class TowerWeapon : NetworkBehaviour
 {
     [Header("Commons")]
     [SerializeField]
@@ -16,18 +18,18 @@ public class TowerWeapon : MonoBehaviour
     [SerializeField]
     private GameObject projectilePrefab;
     [SerializeField]
-    private float attackRate  = 1.0f;
+    private float attackRate = 1.0f;
     [SerializeField]
     private float attackRange = 5f;
 
-    private WeaponState weaponState     = WeaponState.SearchTarget;
-    private Transform attackTarget    = null;
-    private EnemySpawner enemySpawner;
-    
+    private WeaponState weaponState = WeaponState.SearchTarget;
+    private Transform attackTarget = null;
 
-    public void Setup(EnemySpawner enemySpawner)
+    public int PlayerNo => IsOwnedByServer ? 0 : 1;
+    private IReadOnlyList<Transform> EnemyUnitList => PlayerUnitList.Instance.GetEnemyUnitList(PlayerNo);
+
+    public void Setup()
     {
-        this.enemySpawner = enemySpawner;
         ChangeState(WeaponState.SearchTarget);
     }
 
@@ -65,7 +67,7 @@ public class TowerWeapon : MonoBehaviour
         {
             attackTarget = FindClosestAttackTarget();
 
-            if( attackTarget != null)
+            if ( attackTarget != null)
             {
                 ChangeState(WeaponState.TryAttackCannon);
             }
@@ -81,7 +83,9 @@ public class TowerWeapon : MonoBehaviour
                 ChangeState(WeaponState.SearchTarget);
                 break;
             }
-            SpawnProjectile();
+
+            SpawnProjectileServerRpc(OwnerClientId, spawnPoint.position, attackTarget.position);
+
             yield return new WaitForSeconds(attackRate);
         }
     }
@@ -89,36 +93,40 @@ public class TowerWeapon : MonoBehaviour
     private Transform FindClosestAttackTarget()
     {
         float ClosestDistSqr = Mathf.Infinity;
-        for ( int i = 0; i < enemySpawner.EnemyList.Count; ++i)
+        for ( int i = 0; i < EnemyUnitList.Count; ++i)
         {
-            float distance = Vector3.Distance(enemySpawner.EnemyList[i].transform.position, transform.position);
+            float distance = Vector3.Distance(EnemyUnitList[i].transform.position, transform.position);
             if ( distance <= attackRange && distance <= ClosestDistSqr)
             {
                 ClosestDistSqr = distance;
-                attackTarget = enemySpawner.EnemyList[i].transform;
+                attackTarget = EnemyUnitList[i].transform;
             }
         }
         return attackTarget;
     }
     private bool IsPossibleToAttackTarget()
     {
-        if( attackTarget == null)
-        {
+        if (attackTarget == null)
             return false;
-        }
 
-        float distance = Vector3.Distance(attackTarget.position, transform.position );
-        if( distance > attackRange)
+        float distance = Vector3.Distance(attackTarget.position, transform.position);
+        if (distance > attackRange)
         {
             attackTarget = null;
             return false;
         }
+
         return true;
     }
 
-    private void SpawnProjectile()
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnProjectileServerRpc(ulong clientId, Vector3 spawnPosition, Vector3 targetPosition)
     {
-        GameObject clone = Instantiate(projectilePrefab, spawnPoint);
-        clone.GetComponent<Projectile>().Setup(attackTarget);
+        GameObject clone = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+
+        NetworkObject networkObject = clone.GetComponent<NetworkObject>();
+        networkObject.SpawnWithOwnership(clientId);
+        
+        clone.GetComponent<Projectile>().Setup(targetPosition);
     }
 }
